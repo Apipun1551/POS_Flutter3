@@ -64,6 +64,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/snack.svg
   SvgGenImage get snack => const SvgGenImage('assets/icons/snack.svg');
 
+  /// File path: assets/icons/parfum.svg
+  SvgGenImage get parfum => const SvgGenImage('assets/icons/parfum.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     allCategories,
@@ -82,6 +85,7 @@ class $AssetsIconsGen {
     print,
     qrCode,
     snack,
+    parfum,
   ];
 }
 
