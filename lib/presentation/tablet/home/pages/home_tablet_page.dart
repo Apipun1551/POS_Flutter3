@@ -100,7 +100,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                   height: 84,
                                   child: MenuButton(
                                     size: 30,
-                                    iconPath: Assets.icons.allCategories.path,
+                                    iconPath: Assets.icons.parfum.path,//all icon
                                     label: 'All',
                                     isImage: false,
                                     isActive: indexValue == 0,
@@ -141,7 +141,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                                   iconPath:
                                                       Assets
                                                           .icons
-                                                          .allCategories
+                                                          .parfum //other category
                                                           .path,
                                                   label:
                                                       categories[index - 1]
