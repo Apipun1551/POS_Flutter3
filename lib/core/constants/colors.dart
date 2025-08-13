@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+class AppColors { 
+  // Brand hex = #d07b89
+  static const Color brand = Color(0xFFD07B89);
+
   /// primary = #3949AB
   static const Color primary = Color(0xff3949AB);
 
@@ -30,4 +33,5 @@ class AppColors {
 
   /// disabled = #C8D1E1
   static const Color disabled = Color(0xffC8D1E1);
+
 }
