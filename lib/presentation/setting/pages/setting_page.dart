@@ -21,6 +21,23 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  // Fungsi untuk handle tombol Export PDF
+  void _exportPdf() {
+    // Contoh sederhana: tampilkan pesan
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Export PDF pressed')),
+    );
+    // TODO: Implementasi sebenarnya, misal panggil API export PDF dan download file
+  }
+
+  // Fungsi untuk handle tombol Export Excel
+  void _exportExcel() {
+    // Contoh sederhana: tampilkan pesan
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Export Excel pressed')),
+    );
+    // TODO: Implementasi sebenarnya, misal panggil API export Excel dan download file
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +93,77 @@ class _SettingPageState extends State<SettingPage> {
                 ],
               ),
             ),
+            const SpaceHeight(30),
+
+            //Menu Export
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: MenuButton(
+                      iconPath: Assets.images.pdf.path,
+                      label: 'Export PDF',
+                      onPressed: () {
+                        _exportPdf();
+                      },
+                      isImage: true,
+                    ),
+                  ),
+                  const SpaceWidth(15.0),
+                  Flexible(
+                    child: MenuButton(
+                      iconPath: Assets.images.excel.path,
+                      label: 'Export Excel',
+                      onPressed: () {
+                        _exportExcel();
+                      },
+                      isImage: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // End Menu Import
+
+            // ==== START: Tombol Export PDF dan Export Excel ====
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //   child: Column(
+            //     children: [
+            //       ElevatedButton(
+            //         style: ElevatedButton.styleFrom(
+            //           backgroundColor: Colors.blueAccent,
+            //           minimumSize: const Size(double.infinity, 50),
+            //         ),
+            //         onPressed: _exportPdf, // Panggil fungsi export PDF
+            //         child: const Text(
+            //           'Export PDF',
+            //           style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 16,
+            //           ),
+            //         ),
+            //       ),
+            //       const SizedBox(height: 12),
+            //       ElevatedButton(
+            //         style: ElevatedButton.styleFrom(
+            //           backgroundColor: Colors.green,
+            //           minimumSize: const Size(double.infinity, 50),
+            //         ),
+            //         onPressed: _exportExcel, // Panggil fungsi export Excel
+            //         child: const Text(
+            //           'Export Excel',
+            //           style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 16,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // ==== END: Tombol Export PDF dan Export Excel ====
             const SpaceHeight(60),
             Padding(
               padding: const EdgeInsets.all(16.0),
