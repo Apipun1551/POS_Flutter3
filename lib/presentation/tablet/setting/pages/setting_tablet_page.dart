@@ -125,8 +125,16 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
 
                   // 3. Export Data
                   ListTile(
-                    contentPadding: const EdgeInsets.all(12.0),
-                    leading: const Icon(Icons.download, color: AppColors.brand),
+                    contentPadding: const EdgeInsets.only(
+                      left: 23,
+                      top: 15,
+                      right: 15,
+                      bottom: 15,
+                    ),
+                    leading: Image.asset(
+                      Assets.images.export.path,
+                      fit: BoxFit.contain,
+                    ),
                     title: const Text('Export Data'),
                     subtitle: const Text('Export PDF & Excel'),
                     textColor: AppColors.brand,
