@@ -1,3 +1,4 @@
+import 'package:fic23pos_flutter/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fic23pos_flutter/data/datasource/auth_local_datasource.dart';
@@ -36,22 +37,22 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16.0),
         children: [
           const SpaceHeight(80.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 130.0),
-            child: Image.asset(
-              Assets.images.logo.path,
-              width: 100,
-              height: 100,
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 130.0),
+          //   child: Image.asset(
+          //     Assets.images.logo.path,
+          //     width: 100,
+          //     height: 100,
+          //   ),
+          // ),
           const SpaceHeight(24.0),
           const Center(
             child: Text(
-              "Kasir Disha",
+              "Kasir Disha Parfumery",
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 70,
                 fontWeight: FontWeight.w700,
-                color: Colors.black,
+                color: AppColors.brand,
               ),
             ),
           ),
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               'Login to your account',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 15,
                 fontWeight: FontWeight.w400,
                 color: Colors.grey,
               ),
