@@ -96,7 +96,7 @@ class _ManagePrinter2PageState extends State<ManagePrinter2Page> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Printer connected with Name $mac'),
-        backgroundColor: Color.fromARGB(255, 208, 123, 137),
+        backgroundColor: AppColors.brand,
       ),
     );
   }

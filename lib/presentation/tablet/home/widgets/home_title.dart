@@ -26,7 +26,7 @@ class HomeTitle extends StatelessWidget {
             const Text(
               'Disha Parfumery',
               style: TextStyle(
-                color: Color.fromARGB(255, 208, 123, 137),
+                color: AppColors.brand,
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),

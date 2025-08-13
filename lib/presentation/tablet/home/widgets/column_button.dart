@@ -34,7 +34,7 @@ class ColumnButton extends StatelessWidget {
               color: AppColors.white,
               border: Border.all(
                 color: isActive
-                    ? Color.fromARGB(255, 208, 123, 137)
+                    ? AppColors.brand
                     : AppColors.grey.withOpacity(0.5),
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
@@ -46,7 +46,7 @@ class ColumnButton extends StatelessWidget {
             label,
             style: TextStyle(
               color: isActive
-                  ? Color.fromARGB(255, 208, 123, 137)
+                  ? AppColors.brand
                   : AppColors.grey.withOpacity(0.5),
               fontSize: 12,
               fontWeight: FontWeight.w500,

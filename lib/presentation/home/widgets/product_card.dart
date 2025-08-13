@@ -85,7 +85,7 @@ class ProductCard extends StatelessWidget {
                       padding: const EdgeInsets.all(2),
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        color: Color.fromARGB(255, 208, 123, 137),
+                        color: AppColors.brand,
                       ),
                       child: const Icon(Icons.add, color: Colors.white),
                     ),
@@ -114,7 +114,7 @@ class ProductCard extends StatelessWidget {
                     right: 18,
                     child: CircleAvatar(
                       radius: 18,
-                      backgroundColor: Color.fromARGB(255, 208, 123, 137),
+                      backgroundColor: AppColors.brand,
                       child: Text(
                         products[index].quantity.toString(),
                         style: const TextStyle(

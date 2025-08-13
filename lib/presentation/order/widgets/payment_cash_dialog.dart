@@ -47,7 +47,7 @@ class _PaymentCashDialogState extends State<PaymentCashDialog> {
           IconButton(
             onPressed: () => context.pop(),
             icon: const Icon(Icons.highlight_off),
-            color: Color.fromARGB(255, 208, 123, 137),
+            color: AppColors.brand,
           ),
           Center(
             child: Padding(
@@ -60,7 +60,7 @@ class _PaymentCashDialogState extends State<PaymentCashDialog> {
                   return Text(
                     paymentMethod,
                     style: TextStyle(
-                      color: Color.fromARGB(255, 208, 123, 137),
+                      color: AppColors.brand,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),

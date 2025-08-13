@@ -18,7 +18,7 @@ class SettingsTitle extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            color: Color.fromARGB(255, 208, 123, 137),
+            color: AppColors.brand,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

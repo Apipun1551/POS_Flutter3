@@ -35,7 +35,7 @@
 //           const Text(
 //             'DISKON',
 //             style: TextStyle(
-//               color: Color.fromARGB(255, 208, 123, 137),
+//               color: AppColors.brand,
 //               fontSize: 28,
 //               fontWeight: FontWeight.w600,
 //             ),
@@ -48,7 +48,7 @@
 //               },
 //               icon: const Icon(
 //                 Icons.cancel,
-//                 color: Color.fromARGB(255, 208, 123, 137),
+//                 color: AppColors.brand,
 //                 size: 30.0,
 //               ),
 //             ),
@@ -81,7 +81,7 @@
 //                           title: Text('Nama Diskon: ${discount.name}'),
 //                           subtitle: Text('Potongan harga  $discountPrice'),
 //                           contentPadding: EdgeInsets.zero,
-//                           textColor: Color.fromARGB(255, 208, 123, 137),
+//                           textColor: AppColors.brand,
 //                           trailing: Checkbox(
 //                             value: discount.id == discountIdSelected,
 //                             onChanged: (value) {

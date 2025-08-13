@@ -30,13 +30,13 @@ class AddData extends StatelessWidget {
           children: [
             const Icon(
               Icons.add,
-              color: Color.fromARGB(255, 208, 123, 137),
+              color: AppColors.brand,
             ),
             const SpaceHeight(8.0),
             Text(
               title,
               style: const TextStyle(
-                color: Color.fromARGB(255, 208, 123, 137),
+                color: AppColors.brand,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

@@ -350,7 +350,7 @@ class _ManagePrinterPageState extends State<ManagePrinterPage> {
                     // Tampilkan pesan berhasil
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        backgroundColor: Color.fromARGB(255, 208, 123, 137),
+                        backgroundColor: AppColors.brand,
                         content: Text('Pengaturan berhasil disimpan'),
                       ),
                     );
@@ -377,7 +377,7 @@ class _ManagePrinterPageState extends State<ManagePrinterPage> {
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 208, 123, 137),
+              color: AppColors.brand,
             ),
           ),
           SpaceHeight(16),
@@ -433,7 +433,7 @@ class _ManagePrinterPageState extends State<ManagePrinterPage> {
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 208, 123, 137),
+              color: AppColors.brand,
             ),
           ),
           SpaceHeight(16),
@@ -523,7 +523,7 @@ class _ManagePrinterPageState extends State<ManagePrinterPage> {
                           if (printer.macAddress == defaultMac)
                             const Icon(
                               Icons.check_circle,
-                              color: Color.fromARGB(255, 208, 123, 137),
+                              color: AppColors.brand,
                             ),
                           SpaceWidth(13),
                           Button.outlined(

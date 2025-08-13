@@ -55,20 +55,20 @@ class MyApp extends StatelessWidget {
         title: 'POS Responsive FIC 23',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 208, 123, 137)),
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.brand),
           useMaterial3: true,
           textTheme: GoogleFonts.quicksandTextTheme(
             Theme.of(context).textTheme,
           ),
           appBarTheme: AppBarTheme(
-            color: const Color.fromARGB(255, 208, 123, 137), // top bar
+            color: AppColors.brand, // top bar
             elevation: 0,
             titleTextStyle: GoogleFonts.quicksand(
               color: AppColors.white,
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
             ),
-            iconTheme: const IconThemeData(color: Color.fromARGB(255, 208, 123, 137)),
+            iconTheme: const IconThemeData(color: AppColors.brand),
           ),
         ),
         home: FutureBuilder<bool>(

@@ -50,7 +50,7 @@ class _HistoryTabletPageState extends State<HistoryTabletPage> {
             const Text(
               'History Order',
               style: TextStyle(
-                color: Color.fromARGB(255, 208, 123, 137),
+                color: AppColors.brand,
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
               ),

@@ -250,7 +250,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                               Text(
                                 'Orders #',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 208, 123, 137),
+                                  color: AppColors.brand,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -265,7 +265,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                               Text(
                                 'Item',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 208, 123, 137),
+                                  color: AppColors.brand,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -276,7 +276,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                 child: Text(
                                   'Qty',
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 208, 123, 137),
+                                    color: AppColors.brand,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -286,7 +286,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                 child: Text(
                                   'Price',
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 208, 123, 137),
+                                    color: AppColors.brand,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -580,14 +580,14 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                       const Text(
                                         'Total',
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 208, 123, 137),
+                                          color: AppColors.brand,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       Text(
                                         total.currencyFormatRp,
                                         style: const TextStyle(
-                                          color: Color.fromARGB(255, 208, 123, 137),
+                                          color: AppColors.brand,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -624,7 +624,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                             content: Text(
                                               'Save Draft Order Success',
                                             ),
-                                            backgroundColor: Color.fromARGB(255, 208, 123, 137),
+                                            backgroundColor: AppColors.brand,
                                           ),
                                         );
 

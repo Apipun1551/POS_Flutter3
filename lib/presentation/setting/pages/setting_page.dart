@@ -210,7 +210,7 @@ class _SettingPageState extends State<SettingPage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 208, 123, 137),
+                  backgroundColor: AppColors.brand,
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 onPressed: () {

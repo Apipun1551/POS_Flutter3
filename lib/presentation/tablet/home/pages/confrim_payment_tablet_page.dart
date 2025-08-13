@@ -61,7 +61,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                                 Text(
                                   'Confirmation',
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 208, 123, 137),
+                                    color: AppColors.brand,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -86,7 +86,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                             Text(
                               'Item',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -99,7 +99,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                               child: Text(
                                 'Qty',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 208, 123, 137),
+                                  color: AppColors.brand,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -109,7 +109,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                               child: Text(
                                 'Price',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 208, 123, 137),
+                                  color: AppColors.brand,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -146,7 +146,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                                   // Text(
                                   //   subTotal.currencyFormatRp,
                                   //   style: const TextStyle(
-                                  //     color: Color.fromARGB(255, 208, 123, 137),
+                                  //     color: AppColors.brand,
                                   //     fontWeight: FontWeight.w600,
                                   //   ),
                                   // ),
@@ -173,7 +173,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                                   Text(
                                     10000.currencyFormatRp,
                                     style: const TextStyle(
-                                      color: Color.fromARGB(255, 208, 123, 137),
+                                      color: AppColors.brand,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -190,7 +190,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                                   // Text(
                                   //   finalService.currencyFormatRp,
                                   //   style: const TextStyle(
-                                  //     color: Color.fromARGB(255, 208, 123, 137),
+                                  //     color: AppColors.brand,
                                   //     fontWeight: FontWeight.w600,
                                   //   ),
                                   // ),
@@ -202,13 +202,13 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                                 const Text(
                                   'Total',
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 208, 123, 137),
+                                      color: AppColors.brand,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
                                   totalPrice.currencyFormatRp,
                                   style: const TextStyle(
-                                    color: Color.fromARGB(255, 208, 123, 137),
+                                    color: AppColors.brand,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
@@ -237,7 +237,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                             const Text(
                               'Payment',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -255,7 +255,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                             const Text(
                               'Pay Method',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -311,7 +311,7 @@ class _ConfrimPaymentTabletPageState extends State<ConfrimPaymentTabletPage> {
                             const Text(
                               'Total Payment',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),

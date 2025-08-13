@@ -41,12 +41,13 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                   const Text(
                     'Settings',
                     style: TextStyle(
-                      color: Color.fromARGB(255, 208, 123, 137),
+                      color: AppColors.brand,
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SpaceHeight(16.0),
+                  // BUTTONS Setting Printer
                   ListTile(
                     contentPadding: const EdgeInsets.all(12.0),
                     leading: Image.asset(
@@ -55,12 +56,13 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                     ),
                     title: const Text('Manage Printer'),
                     subtitle: const Text('Manage printer in your store'),
-                    textColor: Color.fromARGB(255, 208, 123, 137),
+                    textColor: AppColors.brand,
                     tileColor: currentIndex == 0
                         ? AppColors.blueLight
                         : Colors.transparent,
                     onTap: () => indexValue(0),
                   ),
+                  // BUTTONS Report
                   ListTile(
                     contentPadding: const EdgeInsets.all(12.0),
                     leading: Image.asset(
@@ -69,7 +71,7 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                     ),
                     title: const Text('Report'),
                     subtitle: const Text('Show report data'),
-                    textColor: Color.fromARGB(255, 208, 123, 137),
+                    textColor: AppColors.brand,
                     tileColor: currentIndex == 1
                         ? AppColors.blueLight
                         : Colors.transparent,

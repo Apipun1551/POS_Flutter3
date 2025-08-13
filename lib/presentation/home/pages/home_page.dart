@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color.fromARGB(255, 208, 123, 137),
+        backgroundColor: AppColors.brand,
         title: const Text(
           'Menu Cafe',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

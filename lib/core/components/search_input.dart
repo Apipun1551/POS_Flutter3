@@ -30,7 +30,7 @@ class SearchInput extends StatelessWidget {
           hintText: 'Search...',
           prefixIcon: const Icon(
             Icons.search,
-            color: Color.fromARGB(255, 208, 123, 137),
+            color: AppColors.brand,
           ),
           suffixIcon: InkWell(
             onTap: () {
@@ -38,7 +38,7 @@ class SearchInput extends StatelessWidget {
             },
             child: const Icon(
               Icons.qr_code_2,
-              color: Color.fromARGB(255, 208, 123, 137),
+              color: AppColors.brand,
             ),
           ),
           contentPadding: const EdgeInsets.all(16.0),

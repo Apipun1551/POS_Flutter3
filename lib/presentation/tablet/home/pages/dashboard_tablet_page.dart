@@ -43,7 +43,7 @@ class _DashboardTabletPageState extends State<DashboardTabletPage> {
                   borderRadius: const BorderRadius.horizontal(
                     right: Radius.circular(16.0),
                   ),
-                  color: const Color.fromARGB(255, 208, 123, 137), //side bar
+                  color: AppColors.brand, //side bar
                   boxShadow: [
                     BoxShadow(
                       offset: const Offset(0, -2),

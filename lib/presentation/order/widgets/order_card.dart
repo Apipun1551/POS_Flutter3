@@ -85,7 +85,7 @@ class OrderCard extends StatelessWidget {
                               color: AppColors.white,
                               child: const Icon(
                                 Icons.remove_circle,
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                               ),
                             ),
                           ),
@@ -105,7 +105,7 @@ class OrderCard extends StatelessWidget {
                               color: AppColors.white,
                               child: const Icon(
                                 Icons.add_circle,
-                                color: Color.fromARGB(255, 208, 123, 137),
+                                color: AppColors.brand,
                               ),
                             ),
                           ),
@@ -122,7 +122,7 @@ class OrderCard extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16.0),
           child: IconButton(
             onPressed: onDeleteTap,
-            icon: const Icon(Icons.highlight_off, color: Color.fromARGB(255, 208, 123, 137),),
+            icon: const Icon(Icons.highlight_off, color: AppColors.brand,),
           ),
         ),
       ],

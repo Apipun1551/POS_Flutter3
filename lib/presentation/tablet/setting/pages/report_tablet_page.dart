@@ -94,7 +94,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                               'dd MMM yyyy',
                             ).format(selectedStartDate),
                         style: const TextStyle(
-                          color: Color.fromARGB(255, 208, 123, 137),
+                          color: AppColors.brand,
                           fontSize: 12.0,
                         ),
                       ),
@@ -102,7 +102,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                         onPressed: () => _selectStartDate(context),
                         icon: const Icon(
                           Icons.calendar_month,
-                          color: Color.fromARGB(255, 208, 123, 137),
+                          color: AppColors.brand,
                         ),
                       ),
                     ],
@@ -118,7 +118,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                             ? ''
                             : DateFormat('dd MMM yyyy').format(selectedEndDate),
                         style: const TextStyle(
-                          color: Color.fromARGB(255, 208, 123, 137),
+                          color: AppColors.brand,
                           fontSize: 12.0,
                         ),
                       ),
@@ -126,7 +126,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                         onPressed: () => _selectEndDate(context),
                         icon: const Icon(
                           Icons.calendar_month,
-                          color: Color.fromARGB(255, 208, 123, 137),
+                          color: AppColors.brand,
                         ),
                       ),
                     ],
@@ -190,7 +190,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                         );
                       }).toList();
                     },
-                    icon: const Icon(Icons.more_vert, color: Color.fromARGB(255, 208, 123, 137),),
+                    icon: const Icon(Icons.more_vert, color: AppColors.brand,),
                   ),
                 ],
               ),
@@ -241,14 +241,14 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                                     Text(
                                       "Sold Items",
                                       style: TextStyle(
-                                        color: Color.fromARGB(255, 208, 123, 137),
+                                        color: AppColors.brand,
                                       ),
                                     ),
                                     Text(
                                       "${summary.data.totalSoldQuantity} items",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(255, 208, 123, 137),
+                                        color: AppColors.brand,
                                       ),
                                     ),
                                   ],
@@ -326,7 +326,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                                       Text(
                                         "Total",
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 208, 123, 137),
+                                          color: AppColors.brand,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -334,7 +334,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                                       Text(
                                         "$totalQty items",
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 208, 123, 137),
+                                          color: AppColors.brand,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -342,7 +342,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                                       Text(
                                         totalPrice.currencyFormatRp,
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 208, 123, 137),
+                                          color: AppColors.brand,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -370,12 +370,12 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(color: Color.fromARGB(255, 208, 123, 137),)),
+        Text(title, style: const TextStyle(color: AppColors.brand,)),
         Text(
           int.parse(value).currencyFormatRp,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 208, 123, 137),
+            color: AppColors.brand,
           ),
         ),
       ],
@@ -397,7 +397,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
     return Container(
       width: width,
       height: 56,
-      color: Color.fromARGB(255, 208, 123, 137),
+      color: AppColors.brand,
       alignment: Alignment.centerLeft,
       child: Center(
         child: Text(label, style: const TextStyle(color: Colors.white)),
