@@ -13,6 +13,12 @@ import '../../../core/assets/assets.gen.dart';
 import '../../../core/components/menu_button.dart';
 import '../../../core/components/spaces.dart';
 
+// Tambahan import untuk download dan buka file
+import 'dart:io';
+import 'package:dio/dio.dart'; // Untuk HTTP request
+import 'package:path_provider/path_provider.dart'; // Untuk mendapatkan folder sementara
+import 'package:open_file/open_file.dart'; // Untuk membuka file setelah download
+
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -20,24 +26,61 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
+  // === Implementasi ke backend ===
+
+  // === End implementasi ke backend ===
+
 class _SettingPageState extends State<SettingPage> {
-  // Fungsi untuk handle tombol Export PDF
-  void _exportPdf() {
-    // Contoh sederhana: tampilkan pesan
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Export PDF pressed')),
-    );
-    // TODO: Implementasi sebenarnya, misal panggil API export PDF dan download file
+  // Membuat instance Dio untuk request ke backend Laravel
+  final Dio _dio = Dio(BaseOptions(
+    baseUrl: 'http://your-laravel-backend.test/api', // Ganti dengan URL API Laravel
+    responseType: ResponseType.bytes, // Agar bisa menerima file dalam bentuk bytes
+  ));
+
+  // Fungsi generic untuk download file dari Laravel API
+  Future<void> _downloadFile(String url, String fileName) async {
+    try {
+      final response = await _dio.get<List<int>>(
+        url,
+        options: Options(
+          responseType: ResponseType.bytes, // Pastikan menerima bytes
+          followRedirects: false,
+          validateStatus: (status) => status! < 500,
+        ),
+      );
+
+      // Mendapatkan folder sementara untuk menyimpan file
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/$fileName');
+
+      // Menyimpan bytes ke file
+      await file.writeAsBytes(response.data!);
+
+      // Tampilkan notifikasi berhasil download
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$fileName berhasil di-download!')),
+      );
+
+      // Buka file secara otomatis menggunakan aplikasi bawaan
+      await OpenFile.open(file.path);
+    } catch (e) {
+      // Notifikasi jika download gagal
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal download file: $e')),
+      );
+    }
   }
 
-  // Fungsi untuk handle tombol Export Excel
-  void _exportExcel() {
-    // Contoh sederhana: tampilkan pesan
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Export Excel pressed')),
-    );
-    // TODO: Implementasi sebenarnya, misal panggil API export Excel dan download file
+  // Fungsi untuk export PDF
+  void _exportPdf() {
+    _downloadFile('/reports/pdf', 'report.pdf'); // memanggil route Laravel PDF
   }
+
+  // Fungsi untuk export Excel
+  void _exportExcel() {
+    _downloadFile('/reports/excel', 'report.xlsx'); // memanggil route Laravel Excel
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +138,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             const SpaceHeight(30),
 
-            //Menu Export
+            // === Menu Export PDF / Excel ===
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
@@ -104,9 +147,7 @@ class _SettingPageState extends State<SettingPage> {
                     child: MenuButton(
                       iconPath: Assets.images.pdf.path,
                       label: 'Export PDF',
-                      onPressed: () {
-                        _exportPdf();
-                      },
+                      onPressed: _exportPdf, // panggil fungsi _exportPdf
                       isImage: true,
                     ),
                   ),
@@ -115,9 +156,7 @@ class _SettingPageState extends State<SettingPage> {
                     child: MenuButton(
                       iconPath: Assets.images.excel.path,
                       label: 'Export Excel',
-                      onPressed: () {
-                        _exportExcel();
-                      },
+                      onPressed: _exportExcel, // panggil fungsi _exportExcel
                       isImage: true,
                     ),
                   ),
