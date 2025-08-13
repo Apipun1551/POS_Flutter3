@@ -9,6 +9,8 @@ import 'package:fic23pos_flutter/presentation/home/pages/dashboard_page.dart';
 import 'package:fic23pos_flutter/presentation/setting/pages/manage_printer_page.dart';
 import 'package:fic23pos_flutter/presentation/setting/pages/report_page.dart';
 
+import 'package:fic23pos_flutter/core/constants/variables.dart';
+
 import '../../../core/assets/assets.gen.dart';
 import '../../../core/components/menu_button.dart';
 import '../../../core/components/spaces.dart';
@@ -33,7 +35,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   // Membuat instance Dio untuk request ke backend Laravel
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: 'http://your-laravel-backend.test/api', // Ganti dengan URL API Laravel
+    baseUrl: '${Variables.baseUrl}/api', // Ganti dengan URL API Laravel
     responseType: ResponseType.bytes, // Agar bisa menerima file dalam bentuk bytes
   ));
 
