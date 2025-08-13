@@ -137,6 +137,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/report.png
   AssetGenImage get report => const AssetGenImage('assets/images/report.png');
 
+  // File path: assets/images/pdf.png
+  AssetGenImage get pdf => const AssetGenImage('assets/images/pdf.png');
+
+  // File path: assets/images/excel.png
+  AssetGenImage get excel => const AssetGenImage('assets/images/excel.png');
+
   /// File path: assets/images/sync.png
   AssetGenImage get sync => const AssetGenImage('assets/images/sync.png');
 
@@ -156,6 +162,8 @@ class $AssetsImagesGen {
     manageProduct,
     manageQr,
     report,
+    pdf,
+    excel,
     sync,
   ];
 }
