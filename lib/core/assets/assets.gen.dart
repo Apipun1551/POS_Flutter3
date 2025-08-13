@@ -143,6 +143,9 @@ class $AssetsImagesGen {
   // File path: assets/images/excel.png
   AssetGenImage get excel => const AssetGenImage('assets/images/excel.png');
 
+  // File path: assets/images/export.png
+  AssetGenImage get export => const AssetGenImage('assets/images/export.png');
+
   /// File path: assets/images/sync.png
   AssetGenImage get sync => const AssetGenImage('assets/images/sync.png');
 
@@ -164,6 +167,7 @@ class $AssetsImagesGen {
     report,
     pdf,
     excel,
+    export,
     sync,
   ];
 }
