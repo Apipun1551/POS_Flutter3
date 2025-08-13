@@ -10,7 +10,7 @@ class Button extends StatelessWidget {
     required this.onPressed,
     required this.label,
     this.style = ButtonStyle.filled,
-    this.color = const Color(0xFFD07B89), //hex #d07b89
+    this.color = AppColors.brand, //hex #d07b89
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 50.0,
@@ -26,7 +26,7 @@ class Button extends StatelessWidget {
     required this.label,
     this.style = ButtonStyle.outlined,
     this.color = AppColors.white,
-    this.textColor = const Color(0xFFD07B89),
+    this.textColor = AppColors.brand,
     this.width = double.infinity,
     this.height = 50.0,
     this.borderRadius = 16.0,
