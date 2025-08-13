@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fic23pos_flutter/core/assets/assets.gen.dart';
-import 'package:fic23pos_flutter/core/components/spaces.dart';
+import 'package:dio/dio.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:fic23pos_flutter/core/constants/colors.dart';
+import 'package:fic23pos_flutter/core/assets/assets.gen.dart';
 import 'package:fic23pos_flutter/presentation/tablet/setting/pages/manage_printer_tablet_page.dart';
+import 'package:fic23pos_flutter/core/constants/variables.dart';
+import 'package:fic23pos_flutter/core/components/spaces.dart';
 import 'package:fic23pos_flutter/presentation/tablet/setting/pages/report_tablet_page.dart';
 
 class SettingTabletPage extends StatefulWidget {
