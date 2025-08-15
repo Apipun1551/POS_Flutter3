@@ -13,11 +13,13 @@ import '../../../core/constants/colors.dart';
 class ProductCard extends StatelessWidget {
   final Product data;
   final bool showStock;
+  final bool showAddButton;
 
   const ProductCard({
     Key? key,
     required this.data,
     this.showStock = false, // default false
+    this.showAddButton = true,
   }) : super(key: key);
   //const ProductCard({super.key, required this.data});
 
@@ -57,8 +59,13 @@ class ProductCard extends StatelessWidget {
                       imageUrl: '${Variables.imageBaseUrl}${data.image}',
                       placeholder: (context, url) =>
                           const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.food_bank_outlined, size: 50),
+                      errorWidget: (context, url, error) => 
+                        Image.asset(
+                          'assets/images/parfum.png',
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
                     ),
                   ),
                 ),
@@ -94,16 +101,38 @@ class ProductCard extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        color: AppColors.brand,
+
+                    // Tombol + hanya muncul jika showAddButton = true
+                    if (showAddButton)
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: AppColors.brand,
+                        ),
+                        child: const Icon(Icons.add, color: Colors.white),
                       ),
-                      child: const Icon(Icons.add, color: Colors.white),
-                    ),
                   ],
-                ),
+                ),    
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Flexible(
+                //       child: Text(
+                //         double.parse(data.price!).toInt().currencyFormatRpV2,
+                //         style: const TextStyle(fontWeight: FontWeight.w700),
+                //       ),
+                //     ),
+                //     Container(
+                //       padding: const EdgeInsets.all(2),
+                //       decoration: const BoxDecoration(
+                //         borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //         color: AppColors.brand,
+                //       ),
+                //       child: const Icon(Icons.add, color: Colors.white),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
