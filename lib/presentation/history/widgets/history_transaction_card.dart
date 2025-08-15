@@ -70,49 +70,50 @@ class HistoryTransactionCard extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: data.orderItems!.length + 1,
+            //itemCount: data.orderItems!.length + 1,
+            itemCount: data.orderItems!.length,
             itemBuilder: (context, index) {
-              if (index == data.orderItems!.length) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    top: 4.0,
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  ),
-                  child: Button.filled(
-                    onPressed: () async {
-                      // print receipt
-                      // final printInt = await CwbPrint.instance.printOrderV2(
-                      //   data.orders,
-                      //   data.totalQuantity,
-                      //   data.totalPrice,
-                      //   data.paymentMethod,
-                      //   data.nominalBayar,
-                      //   data.namaKasir,
-                      //   'Customer',
-                      // );
-                      // CwbPrint.instance.printReceipt(printInt);
-                      final orderItems = data.orderItems!.map((e) {
-                        return OrderItem(
-                          quantity: e.quantity!,
-                          product: e.product!,
-                        );
-                      }).toList();
-                      final printValue = await PrinterService.instance
-                          .printOrder(
-                            data.paymentMethod?.toString() ?? '',
-                            orderItems,
-                            data.totalItem ?? 0,
-                            double.parse(data.totalPrice!).toInt(),
-                          );
+              // if (index == data.orderItems!.length) {
+              //   return Padding(
+              //     padding: const EdgeInsets.only(
+              //       top: 4.0,
+              //       left: 16,
+              //       right: 16,
+              //       bottom: 16,
+              //     ),
+              //     child: Button.filled(
+              //       onPressed: () async {
+              //         // print receipt
+              //         // final printInt = await CwbPrint.instance.printOrderV2(
+              //         //   data.orders,
+              //         //   data.totalQuantity,
+              //         //   data.totalPrice,
+              //         //   data.paymentMethod,
+              //         //   data.nominalBayar,
+              //         //   data.namaKasir,
+              //         //   'Customer',
+              //         // );
+              //         // CwbPrint.instance.printReceipt(printInt);
+              //         final orderItems = data.orderItems!.map((e) {
+              //           return OrderItem(
+              //             quantity: e.quantity!,
+              //             product: e.product!,
+              //           );
+              //         }).toList();
+              //         final printValue = await PrinterService.instance
+              //             .printOrder(
+              //               data.paymentMethod?.toString() ?? '',
+              //               orderItems,
+              //               data.totalItem ?? 0,
+              //               double.parse(data.totalPrice!).toInt(),
+              //             );
 
-                      await PrintBluetoothThermal.writeBytes(printValue);
-                    },
-                    label: 'Print Receipt',
-                  ),
-                );
-              }
+              //         await PrintBluetoothThermal.writeBytes(printValue);
+              //       },
+              //       label: 'Print Receipt',
+              //     ),
+              //   );
+              // }
               final item = data.orderItems![index];
               return ListTile(
                 title: Text(item.product!.name ?? 'Product ${index + 1}'),
