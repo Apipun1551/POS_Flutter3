@@ -109,6 +109,7 @@ class _ProductsTabletPageState extends State<ProductsTabletPage> {
                                 return ProductCard(
                                   data: dummyProducts[index],
                                   showStock: true, // stok hanya tampil di halaman ini
+                                  showAddButton: false, //Button tidak tampil di halaman ini
                                 );
                               //),
                               }
