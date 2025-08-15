@@ -41,30 +41,27 @@ class HistoryTransactionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(0.0),
         ),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Assets.icons.payments.svg(),
-            const SizedBox(width: 12.0),
-            Flexible(
-              flex: 6,
-              child: Text(
-                // ignore: unrelated_type_equality_checks
-                '$formattedTime - ${data.paymentMethod! == PaymentMethod.QR ? 'QRIS' : data.paymentMethod! == PaymentMethod.TRANSFER ? 'TRANSFER' : 'Cash'}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
+            Row(
+              children: [
+                Assets.icons.payments.svg(),
+                const SizedBox(width: 12.0),
+                Text(
+                  '$formattedTime - ${data.paymentMethod! == PaymentMethod.QR ? 'QRIS' : data.paymentMethod! == PaymentMethod.TRANSFER ? 'TRANSFER' : 'Cash'}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
+              ],
             ),
-            const Spacer(),
-            Flexible(
-              flex: 4,
-              child: Text(
-                double.parse(data.totalPrice!).toInt().currencyFormatRp,
-                style: const TextStyle(
-                  color: AppColors.green,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
+            Text(
+              double.parse(data.totalPrice!).toInt().currencyFormatRp,
+              style: const TextStyle(
+                color: AppColors.green,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
