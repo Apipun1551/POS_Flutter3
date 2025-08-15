@@ -647,29 +647,25 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                       ),
                                       child: Button.filled(
                                         onPressed: () {
-                                          if (indexValuePayment.value == 0) {
-                                          } else if (indexValuePayment.value ==
-                                              1) {
-                                            showDialog(
-                                              context: context,
-                                              builder:
-                                                  (context) =>
-                                                      PaymentCashDialog(
-                                                        price: finalTotalPrice,
-                                                        isTablet: true,
-                                                      ),
-                                            );
-                                          } else if (indexValuePayment.value ==
-                                              2) {
-                                            // showDialog(
-                                            //   context: context,
-                                            //   barrierDismissible: false,
-                                            //   builder: (context) => PaymentQrisDialog(
-                                            //     price: finalTotalPrice,
-                                            //     isTablet: true,
-                                            //   ),
-                                            // );
-                                          }
+                                        if (indexValuePayment.value == 0) {
+                                          // belum pilih metode pembayaran, bisa kasih snackbar warning
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Silakan pilih metode pembayaran'),
+                                              backgroundColor: AppColors.brand,
+                                            ),
+                                          );
+                                        } else if (indexValuePayment.value == 1 ||
+                                                  indexValuePayment.value == 2 ||
+                                                  indexValuePayment.value == 3) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => PaymentCashDialog(
+                                              price: finalTotalPrice,
+                                              isTablet: true,
+                                            ),
+                                          );
+                                        }
                                         },
                                         label: 'Payment',
                                       ),
