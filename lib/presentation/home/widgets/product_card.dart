@@ -12,8 +12,14 @@ import '../../../core/constants/colors.dart';
 
 class ProductCard extends StatelessWidget {
   final Product data;
+  final bool showStock;
 
-  const ProductCard({super.key, required this.data});
+  const ProductCard({
+    Key? key,
+    required this.data,
+    this.showStock = false, // default false
+  }) : super(key: key);
+  //const ProductCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +73,17 @@ class ProductCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SpaceHeight(8.0),
-                Text(
-                  data.category?.name ?? '',
-                  style: const TextStyle(color: AppColors.grey, fontSize: 12),
-                ),
+                // Tampilkan category atau stock tergantung showStock
+                if (showStock)
+                  Text(
+                    'Stock: ${data.stock ?? 0}',
+                    style: const TextStyle(color: AppColors.grey, fontSize: 12),
+                  ),
+                // else
+                //   Text(
+                //     data.category?.name ?? '',
+                //     style: const TextStyle(color: AppColors.grey, fontSize: 12),
+                //   ),
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
