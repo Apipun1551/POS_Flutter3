@@ -6,6 +6,7 @@ import 'package:fic23pos_flutter/presentation/auth/pages/login_page.dart';
 import 'package:fic23pos_flutter/presentation/home/widgets/nav_item.dart';
 import 'package:fic23pos_flutter/presentation/tablet/history/pages/history_tablet_page.dart';
 import 'package:fic23pos_flutter/presentation/tablet/home/pages/home_tablet_page.dart';
+import 'package:fic23pos_flutter/presentation/tablet/home/pages/products_tablet_page.dart';
 import 'package:fic23pos_flutter/presentation/tablet/setting/pages/setting_tablet_page.dart';
 
 class DashboardTabletPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _DashboardTabletPageState extends State<DashboardTabletPage> {
   final List<Widget> _pages = [
     const HomeTabletPage(),
     const HistoryTabletPage(),
+    const ProductsTabletPage(),
     const SettingTabletPage(),
   ];
 
@@ -70,21 +72,20 @@ class _DashboardTabletPageState extends State<DashboardTabletPage> {
                       onTap: () => _onItemTapped(1),
                       isTablet: true,
                     ),
-
                     NavItem(
-                      iconPath: Assets.icons.dashboard.path,
+                      iconPath: Assets.icons.snack.path,
                       label: '',
                       isActive: _selectedIndex == 2,
                       onTap: () => _onItemTapped(2),
                       isTablet: true,
                     ),
-                    // NavItem(
-                    //   iconPath: Assets.icons.snack.path,
-                    //   label: '',
-                    //   isActive: _selectedIndex == 3,
-                    //   onTap: () => _onItemTapped(3),
-                    //   isTablet: true,
-                    // ),
+                    NavItem(
+                      iconPath: Assets.icons.dashboard.path,
+                      label: '',
+                      isActive: _selectedIndex == 3,
+                      onTap: () => _onItemTapped(3),
+                      isTablet: true,
+                    ),
                     const Spacer(),
                     Container(
                       margin: const EdgeInsets.all(20.0),
