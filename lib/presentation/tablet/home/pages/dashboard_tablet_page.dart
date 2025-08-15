@@ -73,7 +73,7 @@ class _DashboardTabletPageState extends State<DashboardTabletPage> {
                       isTablet: true,
                     ),
                     NavItem(
-                      iconPath: Assets.icons.snack.path,
+                      iconPath: Assets.icons.parfum.path,
                       label: '',
                       isActive: _selectedIndex == 2,
                       onTap: () => _onItemTapped(2),
