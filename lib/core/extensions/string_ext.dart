@@ -9,8 +9,13 @@ extension StringExt on String {
 
   //transactionTime: DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now())
 
+  // String get toFormattedTime {
+  //   final dateTime = DateTime.parse(this);
+  //   return DateFormat('dd-MM HH:mm').format(dateTime);
+  // }
+
   String get toFormattedTime {
-    final dateTime = DateTime.parse(this);
+    final dateTime = DateTime.parse(this).toLocal(); // ubah ke waktu lokal device
     return DateFormat('dd-MM HH:mm').format(dateTime);
   }
 
