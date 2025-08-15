@@ -31,8 +31,8 @@ class History {
   final int? totalItem;
   final int? cashierId;
   final PaymentMethod? paymentMethod;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final List<OrderItemModel>? orderItems;
 
   History({
@@ -59,12 +59,8 @@ class History {
     cashierId: json["cashier_id"],
     paymentMethod:
         paymentMethodValues.map[json["payment_method"]] ?? PaymentMethod.CASH,
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null
-        ? null
-        : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
     orderItems: json["order_items"] == null
         ? []
         : List<OrderItemModel>.from(
@@ -79,8 +75,8 @@ class History {
     "total_item": totalItem,
     "cashier_id": cashierId,
     "payment_method": paymentMethodValues.reverse[paymentMethod],
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "order_items": orderItems == null
         ? []
         : List<dynamic>.from(orderItems!.map((x) => x.toMap())),
