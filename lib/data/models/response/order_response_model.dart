@@ -28,8 +28,8 @@ class Order {
   final int? totalPrice;
   final int? totalItem;
   final String? paymentMethod;
-  final DateTime? updatedAt;
-  final DateTime? createdAt;
+  final String? updatedAt;
+  final String? createdAt;
   final int? id;
   final List<OrderItemModel>? orderItems;
 
@@ -55,12 +55,8 @@ class Order {
     totalPrice: json["total_price"],
     totalItem: json["total_item"],
     paymentMethod: json["payment_method"],
-    updatedAt: json["updated_at"] == null
-        ? null
-        : DateTime.parse(json["updated_at"]),
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"], //jam sama dengan db
+    createdAt: json["created_at"], //jam sama dengan db
     id: json["id"],
     orderItems: json["order_items"] == null
         ? []
@@ -75,8 +71,8 @@ class Order {
     "total_price": totalPrice,
     "total_item": totalItem,
     "payment_method": paymentMethod,
-    "updated_at": updatedAt?.toIso8601String(),
-    "created_at": createdAt?.toIso8601String(),
+    "created_at": createdAt, // Mengirim string langsung
+    "updated_at": updatedAt,  // Mengirim string langsung
     "id": id,
     "order_items": orderItems == null
         ? []
@@ -90,8 +86,8 @@ class OrderItemModel {
   final int? productId;
   final int? quantity;
   final String? totalPrice;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final Product? product;
 
   OrderItemModel({
@@ -116,12 +112,8 @@ class OrderItemModel {
     productId: json["product_id"],
     quantity: json["quantity"],
     totalPrice: json["total_price"],
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null
-        ? null
-        : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
     product: json["product"] == null ? null : Product.fromMap(json["product"]),
   );
 
@@ -131,8 +123,8 @@ class OrderItemModel {
     "product_id": productId,
     "quantity": quantity,
     "total_price": totalPrice,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "product": product?.toMap(),
   };
 }
