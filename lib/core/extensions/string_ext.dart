@@ -15,8 +15,12 @@ extension StringExt on String {
   // }
 
   String get toFormattedTime {
-    final dateTime = DateTime.parse(this).toLocal(); // ubah ke waktu lokal device
-    return DateFormat('dd-MM HH:mm').format(dateTime);
+    try {
+      final dateTime = DateTime.parse(this).toLocal();
+      return DateFormat('dd-MM HH:mm').format(dateTime);
+    } catch (_) {
+      return '-';
+    }
   }
 
   //currencyFormatRp
