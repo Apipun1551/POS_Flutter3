@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fic23pos_flutter/core/components/buttons.dart';
 import 'package:fic23pos_flutter/core/extensions/date_time_ext.dart';
-import 'package:fic23pos_flutter/core/extensions/int_ext.dart';
 import 'package:fic23pos_flutter/core/extensions/string_ext.dart';
+import 'package:fic23pos_flutter/core/extensions/int_ext.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 import '../../../core/assets/assets.gen.dart';
@@ -19,6 +19,9 @@ class HistoryTransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Gunakan format waktu dari extension string_ext.dart
+    final formattedTime = data.createdAt?.toFormattedTime ?? '-';
+
     return Container(
       margin: padding,
       decoration: BoxDecoration(
@@ -45,11 +48,7 @@ class HistoryTransactionCard extends StatelessWidget {
               flex: 6,
               child: Text(
                 // ignore: unrelated_type_equality_checks
-                '${data.createdAt!.toFormattedTime()} - ${data.paymentMethod! == 'QR'
-                    ? 'QRIS'
-                    : data.paymentMethod! == 'TRANSFER'
-                    ? 'TRANSFER'
-                    : 'Cash'}',
+                '$formattedTime - ${data.paymentMethod! == PaymentMethod.QR ? 'QRIS' : data.paymentMethod! == PaymentMethod.TRANSFER ? 'TRANSFER' : 'Cash'}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
