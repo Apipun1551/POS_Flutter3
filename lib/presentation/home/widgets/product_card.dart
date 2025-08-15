@@ -14,12 +14,14 @@ class ProductCard extends StatelessWidget {
   final Product data;
   final bool showStock;
   final bool showAddButton;
+  final bool enableTapToAdd;
 
   const ProductCard({
     Key? key,
     required this.data,
-    this.showStock = false, // default false
-    this.showAddButton = true,
+    this.showStock = false, // default false (aktif di product)
+    this.showAddButton = true, // defaul true (aktif di home)
+    this.enableTapToAdd = true, // default true (aktif di Home)
   }) : super(key: key);
   //const ProductCard({super.key, required this.data});
 
@@ -28,9 +30,16 @@ class ProductCard extends StatelessWidget {
     return Stack(
       children: [
         GestureDetector(
-          onTap: () {
-            context.read<CheckoutBloc>().add(CheckoutEvent.addCheckout(data));
-          },
+          onTap: enableTapToAdd
+              ? () {
+                  context
+                      .read<CheckoutBloc>()
+                      .add(CheckoutEvent.addCheckout(data));
+                }
+              : null, // <-- kalau false, klik card tidak menambah produk
+          // onTap: () {
+          //   context.read<CheckoutBloc>().add(CheckoutEvent.addCheckout(data));
+          // },
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: ShapeDecoration(
