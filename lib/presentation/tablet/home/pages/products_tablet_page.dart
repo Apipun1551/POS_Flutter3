@@ -110,6 +110,7 @@ class _ProductsTabletPageState extends State<ProductsTabletPage> {
                                   data: dummyProducts[index],
                                   showStock: true, // stok hanya tampil di halaman ini
                                   showAddButton: false, //Button tidak tampil di halaman ini
+                                  enableTapToAdd: false, //agar card tidak bisa di klik
                                 );
                               //),
                               }
