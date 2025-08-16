@@ -173,6 +173,72 @@ as int,
 }
 
 /// @nodoc
+
+
+class _SearchProducts implements ProductEvent {
+  const _SearchProducts(this.query);
+  
+
+ final  String query;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SearchProductsCopyWith<_SearchProducts> get copyWith => __$SearchProductsCopyWithImpl<_SearchProducts>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchProducts&&(identical(other.query, query) || other.query == query));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query);
+
+@override
+String toString() {
+  return 'ProductEvent.searchProducts(query: $query)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SearchProductsCopyWith<$Res> implements $ProductEventCopyWith<$Res> {
+  factory _$SearchProductsCopyWith(_SearchProducts value, $Res Function(_SearchProducts) _then) = __$SearchProductsCopyWithImpl;
+@useResult
+$Res call({
+ String query
+});
+
+
+
+
+}
+/// @nodoc
+class __$SearchProductsCopyWithImpl<$Res>
+    implements _$SearchProductsCopyWith<$Res> {
+  __$SearchProductsCopyWithImpl(this._self, this._then);
+
+  final _SearchProducts _self;
+  final $Res Function(_SearchProducts) _then;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? query = null,}) {
+  return _then(_SearchProducts(
+null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$ProductState {
 
 
