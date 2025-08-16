@@ -60,7 +60,10 @@ class _ProductsTabletPageState extends State<ProductsTabletPage> {
                             ),
                           ),
                           onChanged: (value) {
-                            // Implement search logic
+                            // Filter products based on search query
+                            context.read<product_bloc.ProductBloc>().add(
+                              product_bloc.ProductEvent.searchProducts(value),
+                            );
                           },
                         ),
                       ),
