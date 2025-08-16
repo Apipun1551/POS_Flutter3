@@ -84,7 +84,12 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                       children: [
                         HomeTitle(
                           controller: searchController,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            // Filter products based on search query
+                            context.read<product_bloc.ProductBloc>().add(
+                              product_bloc.ProductEvent.searchProducts(value),
+                            );
+                          },
                         ),
                         const SizedBox(height: 24),
                         SizedBox(
@@ -178,52 +183,118 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                           ),
                         ),
                         const SpaceHeight(35.0),
-                        BlocBuilder<
-                          product_bloc.ProductBloc,
-                          product_bloc.ProductState
-                        >(
-                          builder: (context, state) {
-                            switch (state) {
-                              case product_bloc.Loading():
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              case product_bloc.Failure(
-                                message: String message,
-                              ):
-                                return Center(child: Text(message));
-                              case product_bloc.Success(
-                                products: List dummyProducts,
-                              ):
-                                if (dummyProducts.isEmpty) {
-                                  return const Center(
-                                    child: Text('No products available'),
-                                  );
-                                } else {
-                                  return GridView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: dummyProducts.length,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                          childAspectRatio: 0.8,
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 16.0,
-                                          mainAxisSpacing: 16.0,
-                                        ),
-                                    itemBuilder:
-                                        (context, index) => ProductCard(
-                                          data: dummyProducts[index],
-                                        ),
-                                  );
-                                }
 
-                              default:
-                                return const SizedBox.shrink();
+                        // search
+                        // BlocBuilder<product_bloc.ProductBloc, product_bloc.ProductState>(
+                        //   builder: (context, state) {
+                        //     if (state is product_bloc.Loading) {
+                        //       return const Center(child: CircularProgressIndicator());
+                        //     } else if (state is product_bloc.Failure) {
+                        //       return Center(child: Text(state.message));
+                        //     } else if (state is product_bloc.Success) {
+                        //       final productsToShow = state.products;
+                        //       if (productsToShow.isEmpty) {
+                        //         return const Center(child: Text('No products available'));
+                        //       }
+                        //       return GridView.builder(
+                        //         shrinkWrap: true,
+                        //         physics: const NeverScrollableScrollPhysics(),
+                        //         itemCount: productsToShow.length,
+                        //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        //           childAspectRatio: 0.8,
+                        //           crossAxisCount: 3,
+                        //           crossAxisSpacing: 16.0,
+                        //           mainAxisSpacing: 16.0,
+                        //         ),
+                        //         itemBuilder: (context, index) => ProductCard(
+                        //           data: productsToShow[index],
+                        //         ),
+                        //       );
+                        //     } else {
+                        //       return const SizedBox.shrink();
+                        //     }
+                        //   },
+                        // ),
+
+                        BlocBuilder<product_bloc.ProductBloc, product_bloc.ProductState>(
+                          builder: (context, state) {
+                            if (state is product_bloc.Loading) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (state is product_bloc.Failure) {
+                              print('ProductBloc Failure: ${state.message}');
+                              return Center(child: Text(state.message));
+                            } else if (state is product_bloc.Success) {
+                              final productsToShow = state.products;
+                              print('UI shows products: ${productsToShow.length}');
+                              if (productsToShow.isEmpty) {
+                                return const Center(child: Text('No products available'));
+                              }
+                              return GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: productsToShow.length,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.8,
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 16.0,
+                                  mainAxisSpacing: 16.0,
+                                ),
+                                itemBuilder: (context, index) => ProductCard(
+                                  data: productsToShow[index],
+                                ),
+                              );
+                            } else {
+                              return const SizedBox.shrink();
                             }
                           },
                         ),
+
+                        // BlocBuilder<
+                        //   product_bloc.ProductBloc,
+                        //   product_bloc.ProductState
+                        // >(
+                        //   builder: (context, state) {
+                        //     switch (state) {
+                        //       case product_bloc.Loading():
+                        //         return const Center(
+                        //           child: CircularProgressIndicator(),
+                        //         );
+                        //       case product_bloc.Failure(
+                        //         message: String message,
+                        //       ):
+                        //         return Center(child: Text(message));
+                        //       case product_bloc.Success(
+                        //         products: List dummyProducts,
+                        //       ):
+                        //         if (dummyProducts.isEmpty) {
+                        //           return const Center(
+                        //             child: Text('No products available'),
+                        //           );
+                        //         } else {
+                        //           return GridView.builder(
+                        //             shrinkWrap: true,
+                        //             physics:
+                        //                 const NeverScrollableScrollPhysics(),
+                        //             itemCount: dummyProducts.length,
+                        //             gridDelegate:
+                        //                 const SliverGridDelegateWithFixedCrossAxisCount(
+                        //                   childAspectRatio: 0.8,
+                        //                   crossAxisCount: 3,
+                        //                   crossAxisSpacing: 16.0,
+                        //                   mainAxisSpacing: 16.0,
+                        //                 ),
+                        //             itemBuilder:
+                        //                 (context, index) => ProductCard(
+                        //                   data: dummyProducts[index],
+                        //                 ),
+                        //           );
+                        //         }
+
+                        //       default:
+                        //         return const SizedBox.shrink();
+                        //     }
+                        //   },
+                        // ),
 
                         const SpaceHeight(30.0),
                       ],
