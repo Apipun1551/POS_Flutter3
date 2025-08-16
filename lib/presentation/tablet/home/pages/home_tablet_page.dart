@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -221,11 +221,11 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                             if (state is product_bloc.Loading) {
                               return const Center(child: CircularProgressIndicator());
                             } else if (state is product_bloc.Failure) {
-                              print('ProductBloc Failure: ${state.message}');
+                              developer.log('ProductBloc Failure: ${state.message}');
                               return Center(child: Text(state.message));
                             } else if (state is product_bloc.Success) {
                               final productsToShow = state.products;
-                              print('UI shows products: ${productsToShow.length}');
+                              developer.log('UI shows products: ${productsToShow.length}');
                               if (productsToShow.isEmpty) {
                                 return const Center(child: Text('No products available'));
                               }
@@ -428,7 +428,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                           label: 'CASH',
                                           isActive: value == 1,
                                           onPressed: () {
-                                            log("Payment Cash");
+                                            developer.log("Payment Cash");
                                             indexValuePayment.value = 1;
                                             List<OrderItem> products =
                                                 context
@@ -497,7 +497,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                           isActive: value == 2,
                                           onPressed: () {
                                             indexValuePayment.value = 2;
-                                            log("Payment QRIS");
+                                            developer.log("Payment QRIS");
                                             List<OrderItem> products =
                                                 context
                                                             .read<
@@ -565,7 +565,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                           isActive: value == 3,
                                           onPressed: () {
                                             indexValuePayment.value = 3;
-                                            log("Payment TRANSFER");
+                                            developer.log("Payment TRANSFER");
                                             List<OrderItem> products =
                                                 context
                                                             .read<
