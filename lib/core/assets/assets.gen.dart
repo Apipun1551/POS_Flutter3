@@ -52,6 +52,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/orders.svg
   SvgGenImage get orders => const SvgGenImage('assets/icons/orders.svg');
 
+  /// File path: assets/icons/parfum.svg
+  SvgGenImage get parfum => const SvgGenImage('assets/icons/parfum.svg');
+
   /// File path: assets/icons/payments.svg
   SvgGenImage get payments => const SvgGenImage('assets/icons/payments.svg');
 
@@ -63,9 +66,6 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/snack.svg
   SvgGenImage get snack => const SvgGenImage('assets/icons/snack.svg');
-
-  /// File path: assets/icons/parfum.svg
-  SvgGenImage get parfum => const SvgGenImage('assets/icons/parfum.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
@@ -81,11 +81,11 @@ class $AssetsIconsGen {
     home,
     image,
     orders,
+    parfum,
     payments,
     print,
     qrCode,
     snack,
-    parfum,
   ];
 }
 
@@ -94,6 +94,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/close.png
   AssetGenImage get close => const AssetGenImage('assets/images/close.png');
+
+  /// File path: assets/images/excel.png
+  AssetGenImage get excel => const AssetGenImage('assets/images/excel.png');
+
+  /// File path: assets/images/export.png
+  AssetGenImage get export => const AssetGenImage('assets/images/export.png');
 
   /// File path: assets/images/f1.jpeg
   AssetGenImage get f1 => const AssetGenImage('assets/images/f1.jpeg');
@@ -134,17 +140,14 @@ class $AssetsImagesGen {
   AssetGenImage get manageQr =>
       const AssetGenImage('assets/images/manage_qr.png');
 
-  /// File path: assets/images/report.png
-  AssetGenImage get report => const AssetGenImage('assets/images/report.png');
+  /// File path: assets/images/parfum.png
+  AssetGenImage get parfum => const AssetGenImage('assets/images/parfum.png');
 
-  // File path: assets/images/pdf.png
+  /// File path: assets/images/pdf.png
   AssetGenImage get pdf => const AssetGenImage('assets/images/pdf.png');
 
-  // File path: assets/images/excel.png
-  AssetGenImage get excel => const AssetGenImage('assets/images/excel.png');
-
-  // File path: assets/images/export.png
-  AssetGenImage get export => const AssetGenImage('assets/images/export.png');
+  /// File path: assets/images/report.png
+  AssetGenImage get report => const AssetGenImage('assets/images/report.png');
 
   /// File path: assets/images/sync.png
   AssetGenImage get sync => const AssetGenImage('assets/images/sync.png');
@@ -152,6 +155,8 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     close,
+    excel,
+    export,
     f1,
     f2,
     f3,
@@ -164,10 +169,9 @@ class $AssetsImagesGen {
     managePrinter,
     manageProduct,
     manageQr,
-    report,
+    parfum,
     pdf,
-    excel,
-    export,
+    report,
     sync,
   ];
 }
