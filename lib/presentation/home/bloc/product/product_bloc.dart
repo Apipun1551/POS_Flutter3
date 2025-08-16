@@ -10,27 +10,81 @@ part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRemoteDatasource productRemoteDatasource;
-  List<Product> products = [];
+  List<Product> products = [];           // semua produk
+  List<Product> filteredProducts = [];   // produk setelah filter search atau kategori
+  int? currentCategoryId;                // kategori yang sedang dipilih
+
   ProductBloc(this.productRemoteDatasource) : super(Initial()) {
+    // fetch semua produk
     on<_FetchProducts>((event, emit) async {
       emit(Loading());
       final result = await productRemoteDatasource.getProducts();
-      result.fold((failure) => emit(Failure(failure)), (success) {
-        products = success.data ?? [];
-        emit(Success(products));
-      });
+      result.fold(
+        (failure) => emit(Failure(failure)),
+        (success) {
+          products = success.data ?? [];
+          filteredProducts = List.from(products);
+          currentCategoryId = null; // reset kategori
+          emit(Success(filteredProducts));
+        },
+      );
     });
 
+    // fetch produk berdasarkan kategori
     on<_FetchProductsByCategory>((event, emit) async {
       emit(Loading());
+      currentCategoryId = event.categoryId;
       final result = products
           .where((product) => product.categoryId == event.categoryId)
           .toList();
-      if (result.isNotEmpty) {
-        emit(Success(result));
+      filteredProducts = List.from(result);
+      emit(Success(filteredProducts));
+    });
+
+    // search produk
+    // on<_SearchProducts>((event, emit) async {
+    //   final query = event.query.toLowerCase();
+
+    //   // ambil list yang akan di-search: jika kategori dipilih, search di filteredProducts
+    //   final sourceList = currentCategoryId != null
+    //       ? products.where((p) => p.categoryId == currentCategoryId).toList()
+    //       : products;
+
+    //   if (query.isEmpty) {
+    //     filteredProducts = List.from(sourceList);
+    //   } else {
+    //     filteredProducts = sourceList.where((product) {
+    //       final productName = product.name?.toLowerCase() ?? '';
+    //       final productDescription = product.description?.toLowerCase() ?? '';
+    //       return productName.contains(query) || productDescription.contains(query);
+    //     }).toList();
+    //   }
+
+    //   emit(Success(filteredProducts));
+    // });
+    // search produk
+    on<_SearchProducts>((event, emit) async {
+      final query = event.query.toLowerCase();
+
+      // jika ada kategori yang dipilih, gunakan filteredProducts kategori sebagai sumber search
+      // jika tidak ada kategori, gunakan semua produk
+      final sourceList = currentCategoryId != null
+          ? products.where((p) => p.categoryId == currentCategoryId).toList()
+          : products;
+
+      // jika query kosong, tampilkan semua produk sesuai kategori (atau semua produk)
+      if (query.isEmpty) {
+        filteredProducts = List.from(sourceList);
       } else {
-        emit(Failure('No products found for this category'));
+        // filter produk berdasarkan nama atau deskripsi
+        filteredProducts = sourceList.where((product) {
+          final productName = product.name?.toLowerCase() ?? '';
+          final productDescription = product.description?.toLowerCase() ?? '';
+          return productName.contains(query) || productDescription.contains(query);
+        }).toList();
       }
+
+      emit(Success(filteredProducts));
     });
   }
 }
