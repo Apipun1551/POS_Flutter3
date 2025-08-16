@@ -6,6 +6,8 @@ import 'package:fic23pos_flutter/core/extensions/int_ext.dart';
 import 'package:fic23pos_flutter/data/models/response/product_response_model.dart';
 import 'package:fic23pos_flutter/presentation/home/bloc/checkout/checkout_bloc.dart';
 import 'package:fic23pos_flutter/presentation/home/models/order_item.dart';
+import 'package:fic23pos_flutter/core/utils/order_helpers.dart';
+import 'package:fic23pos_flutter/core/components/stock_snackbar.dart';
 
 import '../../../core/components/spaces.dart';
 import '../../../core/constants/colors.dart';
@@ -32,11 +34,34 @@ class ProductCard extends StatelessWidget {
         GestureDetector(
           onTap: enableTapToAdd
               ? () {
-                  context
-                      .read<CheckoutBloc>()
-                      .add(CheckoutEvent.addCheckout(data));
+                  final checkoutState = context.read<CheckoutBloc>().state;
+                  List<OrderItem> currentOrders = [];
+                  
+                  if (checkoutState is Success) {
+                    currentOrders = checkoutState.products;
+                  }
+                  
+                  final isValid = OrderHelpers.validateAndShowStockWarning(
+                    context: context,
+                    product: data,
+                    requestedQuantity: 1,
+                    existingOrders: currentOrders,
+                    onAcceptSuggestion: (suggestedQuantity) {
+                      for (int i = 0; i < suggestedQuantity; i++) {
+                        context.read<CheckoutBloc>().add(
+                          CheckoutEvent.addCheckout(data),
+                        );
+                      }
+                    },
+                  );
+                  
+                  if (isValid) {
+                    context.read<CheckoutBloc>().add(
+                      CheckoutEvent.addCheckout(data),
+                    );
+                  }
                 }
-              : null, // <-- kalau false, klik card tidak menambah produk
+              : null,
           // onTap: () {
           //   context.read<CheckoutBloc>().add(CheckoutEvent.addCheckout(data));
           // },
@@ -113,13 +138,49 @@ class ProductCard extends StatelessWidget {
 
                     // Tombol + hanya muncul jika showAddButton = true
                     if (showAddButton)
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          color: AppColors.brand,
+                      GestureDetector(
+                        onTap: () {
+                          final checkoutState = context.read<CheckoutBloc>().state;
+                          List<OrderItem> currentOrders = [];
+                          
+                          if (checkoutState is Success) {
+                            currentOrders = checkoutState.products;
+                          }
+                          
+                          final existingItem = currentOrders.firstWhere(
+                            (item) => item.product.id == data.id,
+                            orElse: () => OrderItem(product: data, quantity: 0),
+                          );
+                          
+                          final isValid = OrderHelpers.validateAndShowStockWarning(
+                            context: context,
+                            product: data,
+                            requestedQuantity: existingItem.quantity + 1,
+                            existingOrders: currentOrders,
+                            onAcceptSuggestion: (suggestedQuantity) {
+                              final difference = suggestedQuantity - existingItem.quantity;
+                              for (int i = 0; i < difference; i++) {
+                                context.read<CheckoutBloc>().add(
+                                  CheckoutEvent.addCheckout(data),
+                                );
+                              }
+                            },
+                          );
+                          
+                          if (isValid) {
+                            context.read<CheckoutBloc>().add(
+                              CheckoutEvent.addCheckout(data),
+                            );
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            color: AppColors.brand,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white),
                         ),
-                        child: const Icon(Icons.add, color: Colors.white),
                       ),
                   ],
                 ),    
