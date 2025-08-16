@@ -6,4 +6,6 @@ class ProductEvent with _$ProductEvent {
   const factory ProductEvent.fetchProducts() = _FetchProducts;
   //products by category
   const factory ProductEvent.fetchProductsByCategory(int categoryId) = _FetchProductsByCategory;
+  //search products
+  const factory ProductEvent.searchProducts(String query) = _SearchProducts;
 }
