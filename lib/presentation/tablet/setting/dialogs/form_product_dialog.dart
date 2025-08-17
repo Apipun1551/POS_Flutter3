@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fic23pos_flutter/presentation/home/bloc/product/product_bloc.dart';
 import 'package:fic23pos_flutter/core/components/custom_text_field.dart';
 import 'package:fic23pos_flutter/core/components/spaces.dart';
 import 'package:fic23pos_flutter/core/extensions/build_context_ext.dart';
@@ -34,7 +36,7 @@ class _FormProductDialogState extends State<FormProductDialog> {
   void initState() {
     nameController = TextEditingController(text: widget.product?.name ?? '');
     priceController =
-        TextEditingController(text: widget.product?.price.toString() ?? '');
+        TextEditingController(text: (widget.product?.price ?? 0).toInt().currencyFormatRp);
     stockController =
         TextEditingController(text: widget.product?.stock.toString() ?? '');
     isBestSeller =  false;
@@ -109,65 +111,103 @@ class _FormProductDialogState extends State<FormProductDialog> {
               //             ? imageUrl
               //             : "${Variables.baseUrl}$imageUrl",
               //       ),
-              const SpaceHeight(20.0),
+              //const SpaceHeight(20.0),
               CustomTextField(
                 controller: stockController!,
                 label: 'Stock',
                 keyboardType: TextInputType.number,
               ),
               const SpaceHeight(20.0),
-              const Text(
-                "Category",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SpaceHeight(12.0),
-              DropdownButtonHideUnderline(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: DropdownButton<CategoryModel>(
-                    value: selectCategory,
-                    hint: const Text("Select Category"),
-                    isExpanded: true, // Untuk mengisi lebar container
-                    onChanged: (newValue) {
-                      if (newValue != null) {
-                        selectCategory = newValue;
-                        setState(() {});
-                        log("selectCategory: ${selectCategory!.name}");
-                      }
-                    },
-                    items: categories.map<DropdownMenuItem<CategoryModel>>(
-                        (CategoryModel category) {
-                      return DropdownMenuItem<CategoryModel>(
-                        value: category,
-                        child: Text(category.name),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const SpaceHeight(20.0),
+              // const Text(
+              //   "Category",
+              //   style: TextStyle(
+              //     fontSize: 14,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // const SpaceHeight(12.0),
+              // DropdownButtonHideUnderline(
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       border: Border.all(color: Colors.grey),
+              //       borderRadius: BorderRadius.circular(12),
+              //     ),
+              //     padding:
+              //         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              //     child: DropdownButton<CategoryModel>(
+              //       value: selectCategory,
+              //       hint: const Text("Select Category"),
+              //       isExpanded: true, // Untuk mengisi lebar container
+              //       onChanged: (newValue) {
+              //         if (newValue != null) {
+              //           selectCategory = newValue;
+              //           setState(() {});
+              //           log("selectCategory: ${selectCategory!.name}");
+              //         }
+              //       },
+              //       items: categories.map<DropdownMenuItem<CategoryModel>>(
+              //           (CategoryModel category) {
+              //         return DropdownMenuItem<CategoryModel>(
+              //           value: category,
+              //           child: Text(category.name),
+              //         );
+              //       }).toList(),
+              //     ),
+              //   ),
+              // ),
+              // const SpaceHeight(20.0),
+              // Row(
+              //   children: [
+              //     Checkbox(
+              //       value: isBestSeller,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           isBestSeller = value!;
+              //         });
+              //       },
+              //     ),
+              //     const Text('Favorite Product'),
+              //   ],
+              // ),
+              const SpaceHeight(30.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Checkbox(
-                    value: isBestSeller,
-                    onChanged: (value) {
-                      setState(() {
-                        isBestSeller = value!;
-                      });
+                  ElevatedButton(
+                    onPressed: () {
+                      // Extract numeric value from formatted price
+                      final priceText = priceController!.text;
+                      final priceValue = priceText.replaceAll(RegExp(r'[^\d]'), '');
+                      final price = int.tryParse(priceValue) ?? 0;
+                      
+                      final stock = int.tryParse(stockController!.text) ?? 0;
+                      
+                      final updatedProduct = Product(
+                        id: widget.product?.id ?? 0,
+                        name: nameController!.text,
+                        price: price.toDouble(),
+                        stock: stock,
+                        image: imageUrl ?? '',
+                        categoryId: widget.product?.categoryId ?? 0,
+                        description: widget.product?.description ?? '',
+                        createdAt: widget.product?.createdAt ?? DateTime.now(),
+                        updatedAt: DateTime.now(),
+                      );
+
+                      // Kirim ke BLoC 
+                      context.read<ProductBloc>().add(ProductEvent.updateProduct(updatedProduct));
+                      
+                      Navigator.of(context).pop(updatedProduct);
                     },
+                    child: const Text('Save'),
                   ),
-                  const Text('Favorite Product'),
+                  const SpaceWidth(12.0),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Cancel'),
+                  ),
                 ],
               ),
-              const SpaceHeight(30.0),
             ],
           ),
         ),
