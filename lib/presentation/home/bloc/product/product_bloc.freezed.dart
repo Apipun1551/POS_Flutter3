@@ -239,6 +239,204 @@ as String,
 }
 
 /// @nodoc
+
+
+class _AddProduct implements ProductEvent {
+  const _AddProduct(this.product);
+  
+
+ final  Product product;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddProductCopyWith<_AddProduct> get copyWith => __$AddProductCopyWithImpl<_AddProduct>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddProduct&&(identical(other.product, product) || other.product == product));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,product);
+
+@override
+String toString() {
+  return 'ProductEvent.addProduct(product: $product)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AddProductCopyWith<$Res> implements $ProductEventCopyWith<$Res> {
+  factory _$AddProductCopyWith(_AddProduct value, $Res Function(_AddProduct) _then) = __$AddProductCopyWithImpl;
+@useResult
+$Res call({
+ Product product
+});
+
+
+
+
+}
+/// @nodoc
+class __$AddProductCopyWithImpl<$Res>
+    implements _$AddProductCopyWith<$Res> {
+  __$AddProductCopyWithImpl(this._self, this._then);
+
+  final _AddProduct _self;
+  final $Res Function(_AddProduct) _then;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? product = null,}) {
+  return _then(_AddProduct(
+null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as Product,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _UpdateProduct implements ProductEvent {
+  const _UpdateProduct(this.product);
+  
+
+ final  Product product;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateProductCopyWith<_UpdateProduct> get copyWith => __$UpdateProductCopyWithImpl<_UpdateProduct>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateProduct&&(identical(other.product, product) || other.product == product));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,product);
+
+@override
+String toString() {
+  return 'ProductEvent.updateProduct(product: $product)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateProductCopyWith<$Res> implements $ProductEventCopyWith<$Res> {
+  factory _$UpdateProductCopyWith(_UpdateProduct value, $Res Function(_UpdateProduct) _then) = __$UpdateProductCopyWithImpl;
+@useResult
+$Res call({
+ Product product
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateProductCopyWithImpl<$Res>
+    implements _$UpdateProductCopyWith<$Res> {
+  __$UpdateProductCopyWithImpl(this._self, this._then);
+
+  final _UpdateProduct _self;
+  final $Res Function(_UpdateProduct) _then;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? product = null,}) {
+  return _then(_UpdateProduct(
+null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as Product,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _DeleteProduct implements ProductEvent {
+  const _DeleteProduct(this.productId);
+  
+
+ final  int productId;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DeleteProductCopyWith<_DeleteProduct> get copyWith => __$DeleteProductCopyWithImpl<_DeleteProduct>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeleteProduct&&(identical(other.productId, productId) || other.productId == productId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,productId);
+
+@override
+String toString() {
+  return 'ProductEvent.deleteProduct(productId: $productId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DeleteProductCopyWith<$Res> implements $ProductEventCopyWith<$Res> {
+  factory _$DeleteProductCopyWith(_DeleteProduct value, $Res Function(_DeleteProduct) _then) = __$DeleteProductCopyWithImpl;
+@useResult
+$Res call({
+ int productId
+});
+
+
+
+
+}
+/// @nodoc
+class __$DeleteProductCopyWithImpl<$Res>
+    implements _$DeleteProductCopyWith<$Res> {
+  __$DeleteProductCopyWithImpl(this._self, this._then);
+
+  final _DeleteProduct _self;
+  final $Res Function(_DeleteProduct) _then;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? productId = null,}) {
+  return _then(_DeleteProduct(
+null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$ProductState {
 
 
