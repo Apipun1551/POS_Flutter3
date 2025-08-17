@@ -86,5 +86,26 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       emit(Success(filteredProducts));
     });
+
+    // update produk
+    on<_UpdateProduct>((event, emit) async {
+      emit(Loading());
+      
+      // Update produk di local list
+      final index = products.indexWhere((p) => p.id == event.product.id);
+      if (index != -1) {
+        products[index] = event.product;
+        
+        // Update filtered products juga
+        final filteredIndex = filteredProducts.indexWhere((p) => p.id == event.product.id);
+        if (filteredIndex != -1) {
+          filteredProducts[filteredIndex] = event.product;
+        }
+        
+        emit(Success(filteredProducts));
+      } else {
+        emit(Failure('Product not found'));
+      }
+    });
   }
 }
