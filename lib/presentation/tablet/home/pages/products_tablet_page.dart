@@ -4,8 +4,10 @@ import 'package:fic23pos_flutter/core/assets/assets.gen.dart';
 import 'package:fic23pos_flutter/core/components/spaces.dart';
 import 'package:fic23pos_flutter/core/constants/colors.dart';
 import 'package:fic23pos_flutter/core/extensions/build_context_ext.dart';
+import 'package:fic23pos_flutter/data/models/response/product_response_model.dart';
 import 'package:fic23pos_flutter/presentation/home/bloc/product/product_bloc.dart' as product_bloc;
-import 'package:fic23pos_flutter/presentation/home/widgets/product_card.dart';
+import 'package:fic23pos_flutter/presentation/tablet/home/widgets/product_card_crud.dart';
+import 'package:fic23pos_flutter/presentation/tablet/setting/dialogs/form_product_dialog.dart';
 
 class ProductsTabletPage extends StatefulWidget {
   const ProductsTabletPage({super.key});
@@ -67,6 +69,21 @@ class _ProductsTabletPageState extends State<ProductsTabletPage> {
                           },
                         ),
                       ),
+                      const SpaceWidth(16),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const FormProductDialog(),
+                          );
+                        },
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add Product'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.brand,
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                   const SpaceHeight(24),
@@ -107,15 +124,9 @@ class _ProductsTabletPageState extends State<ProductsTabletPage> {
                                 //childAspectRatio: 0.9, // sedikit diperbesar biar konten muat
                               ),
                               itemBuilder: (context, index) {
-                              //=> ProductCard(
-                                //data: dummyProducts[index],
-                                return ProductCard(
+                                return ProductCardCrud(
                                   data: dummyProducts[index],
-                                  showStock: true, // stok hanya tampil di halaman ini
-                                  showAddButton: false, //Button tidak tampil di halaman ini
-                                  enableTapToAdd: false, //agar card tidak bisa di klik
                                 );
-                              //),
                               }
                             );
 
