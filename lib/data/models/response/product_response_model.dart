@@ -31,7 +31,7 @@ class Product {
   final int? id;
   final String? name;
   final String? description;
-  final String? price;
+  final double? price;
   final int? categoryId;
   final String? image;
   final int? stock;
@@ -60,7 +60,7 @@ class Product {
     id: json["id"],
     name: json["name"],
     description: json["description"],
-    price: json["price"],
+    price: json["price"] is String ? double.tryParse(json["price"]) : (json["price"] is int ? json["price"].toDouble() : json["price"]),
     categoryId: json["category_id"],
     image: json["image"],
     stock: json["stock"],

@@ -47,7 +47,7 @@ class OrderMenu extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                subtitle: Text(data.product.price!),
+                subtitle: Text('Rp ${(data.product.price ?? 0).currencyFormatRp}'),
               ),
             ),
             Row(
@@ -94,7 +94,7 @@ class OrderMenu extends StatelessWidget {
             SizedBox(
               width: 80.0,
               child: Text(
-                (double.parse(data.product.price!).toInt() * data.quantity)
+                ((data.product.price ?? 0) * data.quantity)
                     .currencyFormatRp,
                 textAlign: TextAlign.right,
                 style: const TextStyle(

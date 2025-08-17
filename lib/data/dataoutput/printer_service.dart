@@ -48,14 +48,14 @@ class PrinterService {
 
       bytes += generator.row([
         PosColumn(
-          text: '${product.product.price} x ${product.quantity}',
+          text: '${product.product.price ?? 0} x ${product.quantity}',
           width: 8,
           styles: const PosStyles(align: PosAlign.left),
         ),
         PosColumn(
           text:
-              (double.parse(product.product.price!).toInt() * product.quantity)
-                  .currencyFormatRpV2,
+              ((product.product.price ?? 0) * product.quantity)
+                  .currencyFormatRp,
           width: 4,
           styles: const PosStyles(align: PosAlign.right),
         ),

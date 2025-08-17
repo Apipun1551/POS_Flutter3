@@ -8,6 +8,7 @@ import 'package:fic23pos_flutter/presentation/home/models/order_item.dart';
 import '../../../core/components/spaces.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/variables.dart';
+import '../../../core/extensions/int_ext.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderItem data;
@@ -66,7 +67,7 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          data.product.price!,
+                          'Rp ${(data.product.price ?? 0).currencyFormatRp}',
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ],

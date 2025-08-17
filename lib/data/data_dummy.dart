@@ -15,7 +15,7 @@ List<Product> dummyProducts = [
     id: 1,
 
     name: "Nasi Goreng Spesial",
-    price: '25000',
+    price: 25000,
     /* ... */ categoryId: 1, // Tambahkan categoryId untuk draft
     createdAt: DateTime.now(), // Tambahkan createdAt untuk draft
     updatedAt: DateTime.now(), // Tambahkan updatedAt untuk draft
@@ -48,7 +48,7 @@ List<OrderModel> dummyOrders = [
           id: 2,
 
           name: "Sate Ayam Madura",
-          price: '30000',
+          price: 30000,
           category: Category(id: 1, name: "Makanan Berat"),
           image: "...",
           stock: 100, // Tambahkan stock untuk draft
@@ -78,7 +78,7 @@ List<OrderItem> dummyOrderItems = [
       id: 1,
 
       name: "Nasi Goreng Spesial",
-      price: '25000',
+      price: 25000,
       category: Category(id: 1, name: "Makanan Berat"),
       image: "...",
       stock: 100, // Tambahkan stock untuk draft
@@ -93,7 +93,7 @@ List<OrderItem> dummyOrderItems = [
       id: 2,
       // productId: 102,
       name: "Sate Ayam Madura",
-      price: '30000',
+      price: 30000,
       category: Category(id: 1, name: "Makanan Berat"),
       image: "...",
       stock: 100, // Tambahkan stock untuk draft
