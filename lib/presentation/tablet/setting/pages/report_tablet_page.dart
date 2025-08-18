@@ -385,10 +385,10 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
   List<Widget> _getTitleHeaderWidget() {
     return [
       _getTitleItemWidget('No', 68),
-      _getTitleItemWidget('ID', 68),
+      //_getTitleItemWidget('ID', 68),
       _getTitleItemWidget('Product', 160),
-      _getTitleItemWidget('Price', 160),
-      _getTitleItemWidget('Quantity', 68),
+      _getTitleItemWidget('Price', 130),
+      _getTitleItemWidget('Quantity', 58),
       _getTitleItemWidget('Total', 160),
     ];
   }
@@ -429,13 +429,13 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
             final productSales = data.data[index];
             return Row(
               children: <Widget>[
-                Container(
-                  width: 68,
-                  height: 52,
-                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                  alignment: Alignment.centerLeft,
-                  child: Center(child: Text(productSales.productId.toString())),
-                ),
+                // Container(
+                //   width: 68,
+                //   height: 52,
+                //   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                //   alignment: Alignment.centerLeft,
+                //   child: Center(child: Text(productSales.productId.toString())),
+                // ),
                 Container(
                   width: 160,
                   height: 52,
@@ -444,7 +444,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                   child: Center(child: Text(productSales.productName)),
                 ),
                 Container(
-                  width: 160,
+                  width: 130,
                   height: 52,
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                   alignment: Alignment.centerLeft,
@@ -453,7 +453,7 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                   ),
                 ),
                 Container(
-                  width: 68,
+                  width: 58,
                   height: 52,
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                   alignment: Alignment.centerLeft,
