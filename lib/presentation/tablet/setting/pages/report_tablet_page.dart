@@ -162,36 +162,36 @@ class _ReportTabletPageState extends State<ReportTabletPage> {
                     ],
                   ),
                   const SpaceWidth(16),
-                  PopupMenuButton<String>(
-                    onSelected: (value) async {
-                      if (value == 'PDF') {
-                        log("PDF");
-                        // if (productSales.isNotEmpty && summary != null) {
-                        //   log('PDF selected');
-                        //   final status =
-                        //       await PermissionHelper().checkPermission();
-                        //   if (status.isGranted) {
-                        //     final pdfFile =
-                        //         await Invoice.generate(productSales, summary!);
-                        //     log("pdfFile: $pdfFile");
-                        //     HelperPdfService.openFile(pdfFile);
-                        //   }
-                        // }
-                      } else if (value == 'Excel') {
-                        // log("Excel");
-                        // generateExcel(productSales, summary!);
-                      }
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return {'PDF', 'Excel'}.map((String choice) {
-                        return PopupMenuItem<String>(
-                          value: choice,
-                          child: Text(choice),
-                        );
-                      }).toList();
-                    },
-                    icon: const Icon(Icons.more_vert, color: AppColors.brand,),
-                  ),
+                  // PopupMenuButton<String>(
+                  //   onSelected: (value) async {
+                  //     if (value == 'PDF') {
+                  //       log("PDF");
+                  //       // if (productSales.isNotEmpty && summary != null) {
+                  //       //   log('PDF selected');
+                  //       //   final status =
+                  //       //       await PermissionHelper().checkPermission();
+                  //       //   if (status.isGranted) {
+                  //       //     final pdfFile =
+                  //       //         await Invoice.generate(productSales, summary!);
+                  //       //     log("pdfFile: $pdfFile");
+                  //       //     HelperPdfService.openFile(pdfFile);
+                  //       //   }
+                  //       // }
+                  //     } else if (value == 'Excel') {
+                  //       // log("Excel");
+                  //       // generateExcel(productSales, summary!);
+                  //     }
+                  //   },
+                  //   itemBuilder: (BuildContext context) {
+                  //     return {'PDF', 'Excel'}.map((String choice) {
+                  //       return PopupMenuItem<String>(
+                  //         value: choice,
+                  //         child: Text(choice),
+                  //       );
+                  //     }).toList();
+                  //   },
+                  //   icon: const Icon(Icons.more_vert, color: AppColors.brand,),
+                  // ),
                 ],
               ),
               const SpaceHeight(16.0),
