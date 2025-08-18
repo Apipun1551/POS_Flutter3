@@ -6,11 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:fic23pos_flutter/core/assets/assets.gen.dart';
 import 'package:fic23pos_flutter/core/components/spaces.dart';
 import 'package:fic23pos_flutter/core/constants/colors.dart';
-import 'package:fic23pos_flutter/presentation/tablet/setting/pages/manage_printer_tablet_page.dart';
+import 'package:fic23pos_flutter/presentation/tablet/setting/pages/product_report_tablet_page.dart';
 import 'package:fic23pos_flutter/presentation/tablet/setting/pages/report_tablet_page.dart';
 import 'package:fic23pos_flutter/core/constants/variables.dart';
-import 'package:fic23pos_flutter/core/components/menu_button.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fic23pos_flutter/presentation/setting/bloc/product_report/product_report_bloc.dart';
+import 'package:fic23pos_flutter/presentation/setting/bloc/summary/summary_bloc.dart';
+import 'package:fic23pos_flutter/data/datasource/product_remote_datasource.dart';
+import 'package:fic23pos_flutter/data/datasource/report_remote_datasource.dart';
 
 class SettingTabletPage extends StatefulWidget {
   const SettingTabletPage({super.key});
@@ -20,54 +23,12 @@ class SettingTabletPage extends StatefulWidget {
 }
 
 class _SettingTabletPageState extends State<SettingTabletPage> {
-  // int currentIndex = 0;
-  int currentIndex = 1;
+  int currentIndex = 0;
+
   void indexValue(int index) {
     currentIndex = index;
     setState(() {});
   }
-
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: '${Variables.baseUrl}/api',
-    responseType: ResponseType.bytes,
-  ));
-
-
-  Future<void> _downloadFile(String url, String fileName) async {
-    try {
-      final response = await _dio.get<List<int>>(
-        url,
-        options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-          validateStatus: (status) => status! < 500,
-        ),
-      );
-
-      final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/$fileName');
-      await file.writeAsBytes(response.data!);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$fileName berhasil di-download!')),
-      );
-
-      await OpenFile.open(file.path);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal download file: $e')),
-      );
-    }
-  }
-
-  // void _exportPdf(BuildContext context) {
-  //   _downloadFile(context, 'pdf', '/reports/pdf');
-  // }
-
-  // void _exportExcel(BuildContext context) {
-  //   _downloadFile(context, 'xlsx', '/reports/excel');
-  // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,23 +53,23 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                   ),
                   const SpaceHeight(16.0),
 
-                  // 1. Manage Printer
-                  // ListTile(
-                  //   contentPadding: const EdgeInsets.all(12.0),
-                  //   leading: Image.asset(
-                  //     Assets.images.managePrinter.path,
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  //   title: const Text('Manage Printer'),
-                  //   subtitle: const Text('Manage printer in your store'),
-                  //   textColor: AppColors.brand,
-                  //   tileColor: currentIndex == 0
-                  //       ? AppColors.blueLight
-                  //       : Colors.transparent,
-                  //   onTap: () => indexValue(0),
-                  // ),
+                  // Report Product
+                  ListTile(
+                    contentPadding: const EdgeInsets.all(12.0),
+                    leading: Image.asset(
+                      Assets.images.report.path,
+                      fit: BoxFit.contain,
+                    ),
+                    title: const Text('Report Product'),
+                    subtitle: const Text('Show product report data'),
+                    textColor: AppColors.brand,
+                    tileColor: currentIndex == 0
+                        ? AppColors.blueLight
+                        : Colors.transparent,
+                    onTap: () => indexValue(0),
+                  ),
 
-                  // 2. Report Penjualan
+                  // Report Penjualan
                   ListTile(
                     contentPadding: const EdgeInsets.all(12.0),
                     leading: Image.asset(
@@ -124,14 +85,10 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                     onTap: () => indexValue(1),
                   ),
 
-                  // 3. Export Data
+                  // Export Data
                   ListTile(
                     contentPadding: const EdgeInsets.only(
-                      left: 23,
-                      top: 15,
-                      right: 15,
-                      bottom: 15,
-                    ),
+                        left: 23, top: 15, right: 15, bottom: 15),
                     leading: Image.asset(
                       Assets.images.export.path,
                       fit: BoxFit.contain,
@@ -159,9 +116,9 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                 child: IndexedStack(
                   index: currentIndex,
                   children: [
-                    const ManagePrinterTabletPage(), // halaman printer
-                    const ReportTabletPage(), // halaman report 
-                    const ExportTabletPage(), // halaman export
+                    const ProductReportTabletPageWrapper(),
+                    const ReportTabletPage(),
+                    const ExportTabletPage(),
                   ],
                 ),
               ),
@@ -173,12 +130,32 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
   }
 }
 
-// ---------------------- Halaman Export Baru ----------------------
+// ================= ProductReport Wrapper =================
+class ProductReportTabletPageWrapper extends StatelessWidget {
+  const ProductReportTabletPageWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ProductReportBloc>(
+          create: (_) => ProductReportBloc(ReportRemoteDatasource()),
+        ),
+        BlocProvider<SummaryBloc>(
+          create: (_) => SummaryBloc(ReportRemoteDatasource()),
+        ),
+      ],
+      child: ProductReportTabletPage(),
+    );
+  }
+}
+
+// ================= Export Page =================
 class ExportTabletPage extends StatelessWidget {
   const ExportTabletPage({super.key});
 
-  // === LOGIKA DOWNLOAD FILE ===
-  Future<void> _downloadFile(BuildContext context, String type, String endpoint) async {
+  Future<void> _downloadFile(
+      BuildContext context, String type, String endpoint) async {
     try {
       final Dio dio = Dio(BaseOptions(
         baseUrl: '${Variables.baseUrl}/api',
@@ -210,14 +187,11 @@ class ExportTabletPage extends StatelessWidget {
     }
   }
 
-  // === PEMBUNGKUS AGAR MUDAH PANGGIL ===
-  void _exportPdf(BuildContext context) {
-    _downloadFile(context, 'pdf', '/reports/pdf');
-  }
+  void _exportPdf(BuildContext context) =>
+      _downloadFile(context, 'pdf', '/reports/pdf');
 
-  void _exportExcel(BuildContext context) {
-    _downloadFile(context, 'xlsx', '/reports/excel');
-  }
+  void _exportExcel(BuildContext context) =>
+      _downloadFile(context, 'xlsx', '/reports/excel');
 
   @override
   Widget build(BuildContext context) {
@@ -233,19 +207,16 @@ class ExportTabletPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-
-        // Menu Export PDF
         ListTile(
-          leading: Image.asset(Assets.images.pdf.path,width: 40,height: 40),
+          leading: Image.asset(Assets.images.pdf.path, width: 40, height: 40),
           title: const Text('Export PDF'),
           subtitle: const Text('Unduh laporan dalam format PDF'),
           onTap: () => _exportPdf(context),
         ),
         const Divider(height: 1),
-
-        // Menu Export Excel
         ListTile(
-          leading: Image.asset(Assets.images.excel.path,width: 40,height: 40),
+          leading:
+              Image.asset(Assets.images.excel.path, width: 40, height: 40),
           title: const Text('Export Excel'),
           subtitle: const Text('Unduh laporan dalam format Excel'),
           onTap: () => _exportExcel(context),
