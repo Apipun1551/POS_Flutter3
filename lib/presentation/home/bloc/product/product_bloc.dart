@@ -65,12 +65,20 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     /// Add produk
     on<_AddProduct>((event, emit) async {
       emit(Loading());
-      final result = await productRemoteDatasource.addProduct(event.product.toMap());
+      
+      final result = await productRemoteDatasource.addProduct(
+        event.product.toAddMap(), // hanya kirim field yang valid
+      );
+      
       result.fold(
         (failure) => emit(Failure(failure)),
-        (_) => add(const ProductEvent.fetchProducts()),
+        (success) {
+          add(const ProductEvent.fetchProducts()); // refresh list setelah add
+        },
       );
     });
+
+
 
 
     /// Update produk
