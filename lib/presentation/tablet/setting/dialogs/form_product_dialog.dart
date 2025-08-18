@@ -178,15 +178,22 @@ class _FormProductDialogState extends State<FormProductDialog> {
                       final price = int.tryParse(priceController!.text.replaceAll(RegExp(r'[^\d]'), '')) ?? 0;
                       final stock = int.tryParse(stockController!.text) ?? 0;
 
-                      final updatedProduct = Product(
+                      final productData = Product(
                         id: widget.product?.id,
                         name: nameController!.text,
                         price: price.toDouble(),
                         stock: stock,
                       );
 
-                      context.read<ProductBloc>().add(ProductEvent.updateProduct(updatedProduct));
-                      Navigator.of(context).pop(updatedProduct);
+                      if (widget.product == null) {
+                        // Add product
+                        context.read<ProductBloc>().add(ProductEvent.addProduct(productData));
+                      } else {
+                        // Update product
+                        context.read<ProductBloc>().add(ProductEvent.updateProduct(productData));
+                      }
+
+                      Navigator.of(context).pop(productData);
                     },
                     child: const Text('Save'),
                   ),
@@ -197,6 +204,7 @@ class _FormProductDialogState extends State<FormProductDialog> {
                   ),
                 ],
               ),
+
             ],
           ),
         ),
