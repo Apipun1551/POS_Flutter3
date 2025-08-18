@@ -11,11 +11,11 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRemoteDatasource productRemoteDatasource;
   List<Product> products = [];           // semua produk
-  List<Product> filteredProducts = [];   // produk setelah filter search atau kategori
-  int? currentCategoryId;                // kategori yang sedang dipilih
+  List<Product> filteredProducts = [];   // produk setelah filter search/kategori
+  int? currentCategoryId;                // kategori aktif (null = semua)
 
   ProductBloc(this.productRemoteDatasource) : super(Initial()) {
-    // fetch semua produk
+    /// Fetch semua produk
     on<_FetchProducts>((event, emit) async {
       emit(Loading());
       final result = await productRemoteDatasource.getProducts();
@@ -24,13 +24,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (success) {
           products = success.data ?? [];
           filteredProducts = List.from(products);
-          currentCategoryId = null; // reset kategori
+          currentCategoryId = null;
           emit(Success(filteredProducts));
         },
       );
     });
 
-    // fetch produk berdasarkan kategori
+    /// Fetch produk berdasarkan kategori
     on<_FetchProductsByCategory>((event, emit) async {
       emit(Loading());
       currentCategoryId = event.categoryId;
@@ -41,42 +41,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(Success(filteredProducts));
     });
 
-    // search produk
-    // on<_SearchProducts>((event, emit) async {
-    //   final query = event.query.toLowerCase();
-
-    //   // ambil list yang akan di-search: jika kategori dipilih, search di filteredProducts
-    //   final sourceList = currentCategoryId != null
-    //       ? products.where((p) => p.categoryId == currentCategoryId).toList()
-    //       : products;
-
-    //   if (query.isEmpty) {
-    //     filteredProducts = List.from(sourceList);
-    //   } else {
-    //     filteredProducts = sourceList.where((product) {
-    //       final productName = product.name?.toLowerCase() ?? '';
-    //       final productDescription = product.description?.toLowerCase() ?? '';
-    //       return productName.contains(query) || productDescription.contains(query);
-    //     }).toList();
-    //   }
-
-    //   emit(Success(filteredProducts));
-    // });
-    // search produk
+    /// Search produk
     on<_SearchProducts>((event, emit) async {
       final query = event.query.toLowerCase();
 
-      // jika ada kategori yang dipilih, gunakan filteredProducts kategori sebagai sumber search
-      // jika tidak ada kategori, gunakan semua produk
       final sourceList = currentCategoryId != null
           ? products.where((p) => p.categoryId == currentCategoryId).toList()
           : products;
 
-      // jika query kosong, tampilkan semua produk sesuai kategori (atau semua produk)
       if (query.isEmpty) {
         filteredProducts = List.from(sourceList);
       } else {
-        // filter produk berdasarkan nama atau deskripsi
         filteredProducts = sourceList.where((product) {
           final productName = product.name?.toLowerCase() ?? '';
           final productDescription = product.description?.toLowerCase() ?? '';
@@ -87,25 +62,68 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(Success(filteredProducts));
     });
 
-    // update produk
+    /// Add produk
+    on<_AddProduct>((event, emit) async {
+      emit(Loading());
+      final result = await productRemoteDatasource.addProduct(event.product.toMap());
+      result.fold(
+        (failure) => emit(Failure(failure)),
+        (_) => add(const ProductEvent.fetchProducts()),
+      );
+    });
+
+
+    /// Update produk
     on<_UpdateProduct>((event, emit) async {
       emit(Loading());
-      
-      // Update produk di local list
-      final index = products.indexWhere((p) => p.id == event.product.id);
-      if (index != -1) {
-        products[index] = event.product;
-        
-        // Update filtered products juga
-        final filteredIndex = filteredProducts.indexWhere((p) => p.id == event.product.id);
-        if (filteredIndex != -1) {
-          filteredProducts[filteredIndex] = event.product;
-        }
-        
-        emit(Success(filteredProducts));
-      } else {
-        emit(Failure('Product not found'));
-      }
+
+      print('Mengupdate produk ID: ${event.product.id}');
+      print('Data yang dikirim (debug): ${event.product.toMap()}');
+
+      final result = await productRemoteDatasource.updateProduct(
+        event.product.id!,         // id
+        event.product,             // <-- kirim Product, bukan .toMap()
+      );
+
+      result.fold(
+        (failure) {
+          print('Error update: $failure');
+          emit(Failure(failure));
+        },
+        (updatedProduct) {
+          print('Update berhasil: ${updatedProduct.toMap()}');
+
+          // Cara aman: fetch ulang dari server biar sinkron
+          add(const ProductEvent.fetchProducts());
+
+          // Kalau mau instan tanpa fetch, kamu bisa update list lokal seperti ini:
+          // final i = products.indexWhere((p) => p.id == updatedProduct.id);
+          // if (i != -1) products[i] = updatedProduct;
+          // final j = filteredProducts.indexWhere((p) => p.id == updatedProduct.id);
+          // if (j != -1) filteredProducts[j] = updatedProduct;
+          // emit(Success(List.from(filteredProducts)));
+        },
+      );
+    });
+
+
+    /// Delete produk
+    on<_DeleteProduct>((event, emit) async {
+      emit(Loading());
+      final result = await productRemoteDatasource.deleteProduct(event.productId);
+
+      result.fold(
+        (failure) => emit(Failure(failure)),
+        (success) {
+          // Opsi 1: langsung hapus dari list lokal (cepat)
+          products.removeWhere((p) => p.id == event.productId);
+          filteredProducts.removeWhere((p) => p.id == event.productId);
+          emit(Success(List.from(filteredProducts)));
+
+          // Opsi 2 (lebih aman): fetch ulang dari server
+          // add(const ProductEvent.fetchProducts());
+        },
+      );
     });
   }
 }
