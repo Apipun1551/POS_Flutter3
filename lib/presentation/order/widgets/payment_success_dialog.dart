@@ -96,24 +96,24 @@ class PaymentSuccessDialog extends StatelessWidget {
                         ),
                       ),
                       const SpaceWidth(12.0),
-                      Flexible(
-                        child: Button.outlined(
-                          onPressed: () async {
-                            final printValue = await PrinterService.instance
-                                .printOrder(
-                                  paymentMethod,
-                                  orders,
-                                  totalQuantity,
-                                  totalPrice,
-                                );
+                      // Flexible(
+                      //   child: Button.outlined(
+                      //     onPressed: () async {
+                      //       final printValue = await PrinterService.instance
+                      //           .printOrder(
+                      //             paymentMethod,
+                      //             orders,
+                      //             totalQuantity,
+                      //             totalPrice,
+                      //           );
 
-                            await PrintBluetoothThermal.writeBytes(printValue);
-                          },
-                          label: 'Print',
-                          icon: Assets.icons.print.svg(),
-                          fontSize: 12,
-                        ),
-                      ),
+                      //       await PrintBluetoothThermal.writeBytes(printValue);
+                      //     },
+                      //     label: 'Print',
+                      //     icon: Assets.icons.print.svg(),
+                      //     fontSize: 12,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
