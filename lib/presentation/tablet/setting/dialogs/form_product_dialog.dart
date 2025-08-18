@@ -175,28 +175,17 @@ class _FormProductDialogState extends State<FormProductDialog> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Extract numeric value from formatted price
-                      final priceText = priceController!.text;
-                      final priceValue = priceText.replaceAll(RegExp(r'[^\d]'), '');
-                      final price = int.tryParse(priceValue) ?? 0;
-                      
+                      final price = int.tryParse(priceController!.text.replaceAll(RegExp(r'[^\d]'), '')) ?? 0;
                       final stock = int.tryParse(stockController!.text) ?? 0;
-                      
+
                       final updatedProduct = Product(
-                        id: widget.product?.id ?? 0,
+                        id: widget.product?.id,
                         name: nameController!.text,
                         price: price.toDouble(),
                         stock: stock,
-                        image: imageUrl ?? '',
-                        categoryId: widget.product?.categoryId ?? 0,
-                        description: widget.product?.description ?? '',
-                        createdAt: widget.product?.createdAt ?? DateTime.now(),
-                        updatedAt: DateTime.now(),
                       );
 
-                      // Kirim ke BLoC 
                       context.read<ProductBloc>().add(ProductEvent.updateProduct(updatedProduct));
-                      
                       Navigator.of(context).pop(updatedProduct);
                     },
                     child: const Text('Save'),
