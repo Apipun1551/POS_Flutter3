@@ -20,7 +20,8 @@ class SettingTabletPage extends StatefulWidget {
 }
 
 class _SettingTabletPageState extends State<SettingTabletPage> {
-  int currentIndex = 0;
+  // int currentIndex = 0;
+  int currentIndex = 1;
   void indexValue(int index) {
     currentIndex = index;
     setState(() {});
@@ -92,20 +93,20 @@ class _SettingTabletPageState extends State<SettingTabletPage> {
                   const SpaceHeight(16.0),
 
                   // 1. Manage Printer
-                  ListTile(
-                    contentPadding: const EdgeInsets.all(12.0),
-                    leading: Image.asset(
-                      Assets.images.managePrinter.path,
-                      fit: BoxFit.contain,
-                    ),
-                    title: const Text('Manage Printer'),
-                    subtitle: const Text('Manage printer in your store'),
-                    textColor: AppColors.brand,
-                    tileColor: currentIndex == 0
-                        ? AppColors.blueLight
-                        : Colors.transparent,
-                    onTap: () => indexValue(0),
-                  ),
+                  // ListTile(
+                  //   contentPadding: const EdgeInsets.all(12.0),
+                  //   leading: Image.asset(
+                  //     Assets.images.managePrinter.path,
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  //   title: const Text('Manage Printer'),
+                  //   subtitle: const Text('Manage printer in your store'),
+                  //   textColor: AppColors.brand,
+                  //   tileColor: currentIndex == 0
+                  //       ? AppColors.blueLight
+                  //       : Colors.transparent,
+                  //   onTap: () => indexValue(0),
+                  // ),
 
                   // 2. Report Penjualan
                   ListTile(
