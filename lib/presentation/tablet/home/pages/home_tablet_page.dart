@@ -92,97 +92,97 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                           },
                         ),
                         const SizedBox(height: 24),
-                        SizedBox(
-                          width: context.deviceWidth,
-                          height: 84,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: SizedBox(
-                                  width: 120,
-                                  height: 84,
-                                  child: MenuButton(
-                                    size: 30,
-                                    iconPath: Assets.icons.parfum.path,//all icon
-                                    label: 'All',
-                                    isImage: false,
-                                    isActive: indexValue == 0,
-                                    onPressed: () {
-                                      onCategoryTap(0);
-                                      context.read<product_bloc.ProductBloc>().add(
-                                        const product_bloc.ProductEvent.fetchProducts(),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              BlocBuilder<CategoryBloc, CategoryState>(
-                                builder: (context, state) {
-                                  switch (state) {
-                                    case Loading():
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    case Failure(message: String message):
-                                      return Center(child: Text(message));
-                                    case Success(
-                                      categories: List<Category> categories,
-                                    ):
-                                      final cat =
-                                          categories.map((e) {
-                                            int index =
-                                                categories.indexOf(e) + 1;
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 8.0,
-                                                  ),
-                                              child: SizedBox(
-                                                width: 120,
-                                                height: 84,
-                                                child: MenuButton(
-                                                  iconPath:
-                                                      Assets
-                                                          .icons
-                                                          .parfum //other category
-                                                          .path,
-                                                  label:
-                                                      categories[index - 1]
-                                                          .name ??
-                                                      'Category $index',
-                                                  isActive: indexValue == index,
-                                                  isImage: false,
-                                                  onPressed: () {
-                                                    context
-                                                        .read<
-                                                          product_bloc.ProductBloc
-                                                        >()
-                                                        .add(
-                                                          product_bloc
-                                                              .ProductEvent.fetchProductsByCategory(
-                                                            e.id!,
-                                                          ),
-                                                        );
-                                                    onCategoryTap(index);
-                                                  },
-                                                  size: 30,
-                                                ),
-                                              ),
-                                            );
-                                          }).toList();
-                                      return Row(children: cat);
+                        // SizedBox(
+                        //   width: context.deviceWidth,
+                        //   height: 84,
+                        //   child: ListView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     children: [
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(right: 8.0),
+                        //         child: SizedBox(
+                        //           width: 120,
+                        //           height: 84,
+                        //           child: MenuButton(
+                        //             size: 30,
+                        //             iconPath: Assets.icons.parfum.path,//all icon
+                        //             label: 'All',
+                        //             isImage: false,
+                        //             isActive: indexValue == 0,
+                        //             onPressed: () {
+                        //               onCategoryTap(0);
+                        //               context.read<product_bloc.ProductBloc>().add(
+                        //                 const product_bloc.ProductEvent.fetchProducts(),
+                        //               );
+                        //             },
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       BlocBuilder<CategoryBloc, CategoryState>(
+                        //         builder: (context, state) {
+                        //           switch (state) {
+                        //             case Loading():
+                        //               return const Center(
+                        //                 child: CircularProgressIndicator(),
+                        //               );
+                        //             case Failure(message: String message):
+                        //               return Center(child: Text(message));
+                        //             case Success(
+                        //               categories: List<Category> categories,
+                        //             ):
+                        //               final cat =
+                        //                   categories.map((e) {
+                        //                     int index =
+                        //                         categories.indexOf(e) + 1;
+                        //                     return Padding(
+                        //                       padding:
+                        //                           const EdgeInsets.symmetric(
+                        //                             horizontal: 8.0,
+                        //                           ),
+                        //                       child: SizedBox(
+                        //                         width: 120,
+                        //                         height: 84,
+                        //                         child: MenuButton(
+                        //                           iconPath:
+                        //                               Assets
+                        //                                   .icons
+                        //                                   .parfum //other category
+                        //                                   .path,
+                        //                           label:
+                        //                               categories[index - 1]
+                        //                                   .name ??
+                        //                               'Category $index',
+                        //                           isActive: indexValue == index,
+                        //                           isImage: false,
+                        //                           onPressed: () {
+                        //                             context
+                        //                                 .read<
+                        //                                   product_bloc.ProductBloc
+                        //                                 >()
+                        //                                 .add(
+                        //                                   product_bloc
+                        //                                       .ProductEvent.fetchProductsByCategory(
+                        //                                     e.id!,
+                        //                                   ),
+                        //                                 );
+                        //                             onCategoryTap(index);
+                        //                           },
+                        //                           size: 30,
+                        //                         ),
+                        //                       ),
+                        //                     );
+                        //                   }).toList();
+                        //               return Row(children: cat);
 
-                                    case _:
-                                      return const Text('no data');
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SpaceHeight(35.0),
+                        //             case _:
+                        //               return const Text('no data');
+                        //           }
+                        //         },
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // const SpaceHeight(35.0),
 
                         // search
                         // BlocBuilder<product_bloc.ProductBloc, product_bloc.ProductState>(
