@@ -73,7 +73,7 @@ class ProductCardCrud extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Stock: ${data.stock ?? 0}',
+                              'Stock: ${data.stock ?? 0} ml',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.grey),
                             ),
