@@ -38,19 +38,27 @@ class ProductRemoteDatasource {
     }
   }
 
-  Future<Either<String, String>> updateProduct(int id, Map<String, dynamic> product) async {
+  Future<Either<String, Product>> updateProduct(int id, Product product) async {
     final authData = await AuthLocalDatasource().getAuthData();
-    final response = await http.put(
+    final response = await http.patch(
       Uri.parse('${Variables.baseUrl}/api/products/$id'),
       headers: {
         'Authorization': 'Bearer ${authData?.token}',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(product),
+      body: jsonEncode(product.toUpdateMap()), // hanya field valid
     );
 
     if (response.statusCode == 200) {
-      return right('Produk berhasil diupdate');
+      try {
+        final jsonBody = jsonDecode(response.body);
+        final updatedProduct = jsonBody["data"] != null
+            ? Product.fromMap(jsonBody["data"])
+            : Product.fromMap(jsonBody);
+        return right(updatedProduct);
+      } catch (e) {
+        return left("Invalid JSON: ${response.body}");
+      }
     } else {
       return left(response.body);
     }
