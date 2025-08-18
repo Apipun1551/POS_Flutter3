@@ -18,6 +18,7 @@ import 'package:fic23pos_flutter/presentation/home/pages/dashboard_page.dart';
 import 'package:fic23pos_flutter/presentation/order/bloc/order/order_bloc.dart';
 import 'package:fic23pos_flutter/presentation/setting/bloc/product_sales/product_sales_bloc.dart';
 import 'package:fic23pos_flutter/presentation/setting/bloc/summary/summary_bloc.dart';
+import 'package:fic23pos_flutter/presentation/setting/bloc/product_report/product_report_bloc.dart';
 import 'package:fic23pos_flutter/presentation/tablet/home/pages/dashboard_tablet_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProductSalesBloc(ReportRemoteDatasource()),
         ),
+        BlocProvider(create: (context) => ProductReportBloc(ReportRemoteDatasource())),
       ],
       child: MaterialApp(
         title: 'POS Responsive FIC 23',
