@@ -49,7 +49,12 @@ class OrderCard extends StatelessWidget {
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) =>
-                      const Icon(Icons.food_bank_outlined, size: 80),
+                      Image.asset(
+                        'assets/images/parfum.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
                 ),
               ),
               const SpaceWidth(24.0),

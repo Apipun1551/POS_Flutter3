@@ -35,7 +35,12 @@ class OrderMenu extends StatelessWidget {
                         (context, url) => const CircularProgressIndicator(),
                     errorWidget:
                         (context, url, error) =>
-                            const Icon(Icons.food_bank_outlined, size: 40),
+                          Image.asset(
+                            'assets/images/parfum.png',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 title: Text(
