@@ -94,4 +94,14 @@ class Product {
         "updated_at": updatedAt?.toIso8601String(),
         "category": category?.toMap(),
       };
-}
+  }
+
+  extension ProductAddMap on Product {
+    Map<String, dynamic> toAddMap() {
+      return {
+        'name': name,
+        'price': price,
+        'stock': stock,
+      };
+    }
+  }
