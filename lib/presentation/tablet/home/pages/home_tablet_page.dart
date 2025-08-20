@@ -37,7 +37,6 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
   final indexValuePayment = ValueNotifier(0);
   bool isOpenBill = false;
   int indexValue = 0;
-  int finalTotalPrice = 0;
 
   @override
   void initState() {
@@ -51,18 +50,15 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
   void onCategoryTap(int index) {
     searchController.clear();
     indexValue = index;
-
-    // context.read<ProductBloc>().add(ProductEvent.fetchByCategory(categoryId));
     setState(() {});
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     searchController.dispose();
     tableNumberController.dispose();
     orderNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,6 +68,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
       child: Scaffold(
         body: Row(
           children: [
+            // =================== LEFT PANEL ===================
             Expanded(
               flex: 3,
               child: Align(
@@ -85,136 +82,12 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                         HomeTitle(
                           controller: searchController,
                           onChanged: (value) {
-                            // Filter products based on search query
                             context.read<product_bloc.ProductBloc>().add(
                               product_bloc.ProductEvent.searchProducts(value),
                             );
                           },
                         ),
                         const SizedBox(height: 24),
-                        // SizedBox(
-                        //   width: context.deviceWidth,
-                        //   height: 84,
-                        //   child: ListView(
-                        //     scrollDirection: Axis.horizontal,
-                        //     children: [
-                        //       Padding(
-                        //         padding: const EdgeInsets.only(right: 8.0),
-                        //         child: SizedBox(
-                        //           width: 120,
-                        //           height: 84,
-                        //           child: MenuButton(
-                        //             size: 30,
-                        //             iconPath: Assets.icons.parfum.path,//all icon
-                        //             label: 'All',
-                        //             isImage: false,
-                        //             isActive: indexValue == 0,
-                        //             onPressed: () {
-                        //               onCategoryTap(0);
-                        //               context.read<product_bloc.ProductBloc>().add(
-                        //                 const product_bloc.ProductEvent.fetchProducts(),
-                        //               );
-                        //             },
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       BlocBuilder<CategoryBloc, CategoryState>(
-                        //         builder: (context, state) {
-                        //           switch (state) {
-                        //             case Loading():
-                        //               return const Center(
-                        //                 child: CircularProgressIndicator(),
-                        //               );
-                        //             case Failure(message: String message):
-                        //               return Center(child: Text(message));
-                        //             case Success(
-                        //               categories: List<Category> categories,
-                        //             ):
-                        //               final cat =
-                        //                   categories.map((e) {
-                        //                     int index =
-                        //                         categories.indexOf(e) + 1;
-                        //                     return Padding(
-                        //                       padding:
-                        //                           const EdgeInsets.symmetric(
-                        //                             horizontal: 8.0,
-                        //                           ),
-                        //                       child: SizedBox(
-                        //                         width: 120,
-                        //                         height: 84,
-                        //                         child: MenuButton(
-                        //                           iconPath:
-                        //                               Assets
-                        //                                   .icons
-                        //                                   .parfum //other category
-                        //                                   .path,
-                        //                           label:
-                        //                               categories[index - 1]
-                        //                                   .name ??
-                        //                               'Category $index',
-                        //                           isActive: indexValue == index,
-                        //                           isImage: false,
-                        //                           onPressed: () {
-                        //                             context
-                        //                                 .read<
-                        //                                   product_bloc.ProductBloc
-                        //                                 >()
-                        //                                 .add(
-                        //                                   product_bloc
-                        //                                       .ProductEvent.fetchProductsByCategory(
-                        //                                     e.id!,
-                        //                                   ),
-                        //                                 );
-                        //                             onCategoryTap(index);
-                        //                           },
-                        //                           size: 30,
-                        //                         ),
-                        //                       ),
-                        //                     );
-                        //                   }).toList();
-                        //               return Row(children: cat);
-
-                        //             case _:
-                        //               return const Text('no data');
-                        //           }
-                        //         },
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // const SpaceHeight(35.0),
-
-                        // search
-                        // BlocBuilder<product_bloc.ProductBloc, product_bloc.ProductState>(
-                        //   builder: (context, state) {
-                        //     if (state is product_bloc.Loading) {
-                        //       return const Center(child: CircularProgressIndicator());
-                        //     } else if (state is product_bloc.Failure) {
-                        //       return Center(child: Text(state.message));
-                        //     } else if (state is product_bloc.Success) {
-                        //       final productsToShow = state.products;
-                        //       if (productsToShow.isEmpty) {
-                        //         return const Center(child: Text('No products available'));
-                        //       }
-                        //       return GridView.builder(
-                        //         shrinkWrap: true,
-                        //         physics: const NeverScrollableScrollPhysics(),
-                        //         itemCount: productsToShow.length,
-                        //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        //           childAspectRatio: 0.8,
-                        //           crossAxisCount: 3,
-                        //           crossAxisSpacing: 16.0,
-                        //           mainAxisSpacing: 16.0,
-                        //         ),
-                        //         itemBuilder: (context, index) => ProductCard(
-                        //           data: productsToShow[index],
-                        //         ),
-                        //       );
-                        //     } else {
-                        //       return const SizedBox.shrink();
-                        //     }
-                        //   },
-                        // ),
 
                         BlocBuilder<product_bloc.ProductBloc, product_bloc.ProductState>(
                           builder: (context, state) {
@@ -249,53 +122,6 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                           },
                         ),
 
-                        // BlocBuilder<
-                        //   product_bloc.ProductBloc,
-                        //   product_bloc.ProductState
-                        // >(
-                        //   builder: (context, state) {
-                        //     switch (state) {
-                        //       case product_bloc.Loading():
-                        //         return const Center(
-                        //           child: CircularProgressIndicator(),
-                        //         );
-                        //       case product_bloc.Failure(
-                        //         message: String message,
-                        //       ):
-                        //         return Center(child: Text(message));
-                        //       case product_bloc.Success(
-                        //         products: List dummyProducts,
-                        //       ):
-                        //         if (dummyProducts.isEmpty) {
-                        //           return const Center(
-                        //             child: Text('No products available'),
-                        //           );
-                        //         } else {
-                        //           return GridView.builder(
-                        //             shrinkWrap: true,
-                        //             physics:
-                        //                 const NeverScrollableScrollPhysics(),
-                        //             itemCount: dummyProducts.length,
-                        //             gridDelegate:
-                        //                 const SliverGridDelegateWithFixedCrossAxisCount(
-                        //                   childAspectRatio: 0.8,
-                        //                   crossAxisCount: 3,
-                        //                   crossAxisSpacing: 16.0,
-                        //                   mainAxisSpacing: 16.0,
-                        //                 ),
-                        //             itemBuilder:
-                        //                 (context, index) => ProductCard(
-                        //                   data: dummyProducts[index],
-                        //                 ),
-                        //           );
-                        //         }
-
-                        //       default:
-                        //         return const SizedBox.shrink();
-                        //     }
-                        //   },
-                        // ),
-
                         const SpaceHeight(30.0),
                       ],
                     ),
@@ -303,8 +129,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                 ),
               ),
             ),
-
-            // Right
+            // === Bagian kanan ===
             Expanded(
               flex: 2,
               child: Padding(
@@ -367,36 +192,31 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
 
                     // === Bagian produk (scrollable) ===
                     Expanded(
-                      child: BlocBuilder<
-                          checkout_bloc.CheckoutBloc,
-                          checkout_bloc.CheckoutState>(
+                      child: BlocBuilder<checkout_bloc.CheckoutBloc, checkout_bloc.CheckoutState>(
                         builder: (context, state) {
-                          switch (state) {
-                            case checkout_bloc.Success(
-                              products: List products,
-                              total: int _,
-                              qty: int qty,
-                            ):
-                              return qty == 0
-                                  ? const Center(
-                                      child: Text(
-                                        'No items in the cart',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black54,
-                                        ),
+                          if (state is checkout_bloc.Success) {
+                            final products = state.products;
+                            final qty = state.qty;
+
+                            return qty == 0
+                                ? const Center(
+                                    child: Text(
+                                      'No items in the cart',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54,
                                       ),
-                                    )
-                                  : ListView.separated(
-                                      itemBuilder: (context, index) => OrderMenu(
-                                        data: products[index],
-                                      ),
-                                      separatorBuilder: (context, index) =>
-                                          const SpaceHeight(1.0),
-                                      itemCount: products.length,
-                                    );
-                            case _:
-                              return const SizedBox.shrink();
+                                    ),
+                                  )
+                                : ListView.separated(
+                                    itemBuilder: (context, index) => OrderMenu(
+                                      data: products[index],
+                                    ),
+                                    separatorBuilder: (context, index) => const SpaceHeight(1.0),
+                                    itemCount: products.length,
+                                  );
+                          } else {
+                            return const SizedBox.shrink();
                           }
                         },
                       ),
@@ -416,10 +236,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                               iconPath: Assets.icons.cash.path,
                               label: 'CASH',
                               isActive: value == 1,
-                              onPressed: () {
-                                indexValuePayment.value = 1;
-                                // kirim event ke bloc
-                              },
+                              onPressed: () => indexValuePayment.value = 1,
                             ),
                           ),
                           const SpaceWidth(16),
@@ -428,9 +245,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                               iconPath: Assets.icons.qrCode.path,
                               label: 'QR',
                               isActive: value == 2,
-                              onPressed: () {
-                                indexValuePayment.value = 2;
-                              },
+                              onPressed: () => indexValuePayment.value = 2,
                             ),
                           ),
                           const SpaceWidth(16),
@@ -439,9 +254,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                               iconPath: Assets.icons.debit.path,
                               label: 'TRANSFER',
                               isActive: value == 3,
-                              onPressed: () {
-                                indexValuePayment.value = 3;
-                              },
+                              onPressed: () => indexValuePayment.value = 3,
                             ),
                           ),
                         ],
@@ -452,39 +265,93 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                     const Divider(),
                     const SpaceHeight(8),
 
-                    // === Total + Tombol Payment (selalu nempel bawah) ===
+                    // === Total + Tombol Payment (sticky) ===
                     BlocBuilder<checkout_bloc.CheckoutBloc, checkout_bloc.CheckoutState>(
                       builder: (context, state) {
-                        int total = state is checkout_bloc.Success ? state.total : 0;
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        int finalTotalPrice = state is checkout_bloc.Success ? state.total : 0;
+                        final products = state is checkout_bloc.Success ? state.products : <OrderItem>[];
+                        final qty = state is checkout_bloc.Success ? state.qty : 0;
+
+                        return ColoredBox(
+                          color: AppColors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Text(
-                                  'Total',
-                                  style: TextStyle(
-                                    color: AppColors.brand,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                // --- Total order ---
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Total',
+                                      style: TextStyle(
+                                        color: AppColors.brand,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      finalTotalPrice.currencyFormatRp,
+                                      style: const TextStyle(
+                                        color: AppColors.brand,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  total.currencyFormatRp,
-                                  style: const TextStyle(
-                                    color: AppColors.brand,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                const SpaceHeight(12.0),
+                                // --- Tombol Payment ---
+                                Button.filled(
+                                  onPressed: () {
+                                    if (indexValuePayment.value == 0) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Silakan pilih metode pembayaran'),
+                                          backgroundColor: AppColors.brand,
+                                        ),
+                                      );
+                                      return;
+                                    }
+
+                                    if (state is checkout_bloc.Success) {
+                                      // Kirim event ke OrderBloc
+                                      context.read<order_bloc.OrderBloc>().add(
+                                            order_bloc.OrderEvent.addPaymentMethod(
+                                              indexValuePayment.value == 1
+                                                  ? 'CASH'
+                                                  : indexValuePayment.value == 2
+                                                      ? 'QR'
+                                                      : 'TRANSFER',
+                                              products,
+                                              qty,
+                                              finalTotalPrice,
+                                            ),
+                                          );
+
+                                      // Tampilkan dialog Payment
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => PaymentCashDialog(
+                                          price: finalTotalPrice,
+                                          isTablet: true,
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Order belum siap'),
+                                          backgroundColor: AppColors.brand,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  label: 'Payment',
                                 ),
                               ],
                             ),
-                            const SpaceHeight(16),
-                            Button.filled(
-                              onPressed: () {
-                                // Payment logic
-                              },
-                              label: 'Payment',
-                            ),
-                          ],
+                          ),
                         );
                       },
                     ),
