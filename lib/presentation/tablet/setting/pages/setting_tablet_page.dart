@@ -187,41 +187,107 @@ class ExportTabletPage extends StatelessWidget {
     }
   }
 
-  void _exportPdf(BuildContext context) =>
+  // void _exportPdf(BuildContext context) =>
+  //     _downloadFile(context, 'pdf', '/reports/pdf');
+
+  // void _exportExcel(BuildContext context) =>
+  //     _downloadFile(context, 'xlsx', '/reports/excel');
+
+  //Laporan Penjualan
+  void _exportSalesPdf(BuildContext context) =>
       _downloadFile(context, 'pdf', '/reports/pdf');
 
-  void _exportExcel(BuildContext context) =>
+  void _exportSalesExcel(BuildContext context) =>
       _downloadFile(context, 'xlsx', '/reports/excel');
+
+  // Laporan Produk
+  void _exportProductPdf(BuildContext context) =>
+      _downloadFile(context, 'pdf', '/reports/products/pdf');
+
+  void _exportProductExcel(BuildContext context) =>
+      _downloadFile(context, 'xlsx', '/reports/products/excel');
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Export Data',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppColors.brand,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Export Data',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.brand,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        ListTile(
-          leading: Image.asset(Assets.images.pdf.path, width: 40, height: 40),
-          title: const Text('Export PDF'),
-          subtitle: const Text('Unduh laporan dalam format PDF'),
-          onTap: () => _exportPdf(context),
-        ),
-        const Divider(height: 1),
-        ListTile(
-          leading:
-              Image.asset(Assets.images.excel.path, width: 40, height: 40),
-          title: const Text('Export Excel'),
-          subtitle: const Text('Unduh laporan dalam format Excel'),
-          onTap: () => _exportExcel(context),
-        ),
-      ],
+          const SizedBox(height: 16),
+
+          // ================== Section: Laporan Penjualan ==================
+          const Text(
+            'Laporan Penjualan',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 2,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Image.asset(Assets.images.pdf.path, width: 40, height: 40),
+                  title: const Text('Export Laporan Penjualan (PDF)'),
+                  subtitle: const Text('Unduh laporan penjualan dalam format PDF'),
+                  onTap: () => _exportSalesPdf(context),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: Image.asset(Assets.images.excel.path, width: 40, height: 40),
+                  title: const Text('Export Laporan Penjualan (Excel)'),
+                  subtitle: const Text('Unduh laporan penjualan dalam format Excel'),
+                  onTap: () => _exportSalesExcel(context),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // ================== Section: Laporan Produk ==================
+          const Text(
+            'Laporan Produk',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 2,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Image.asset(Assets.images.pdf.path, width: 40, height: 40),
+                  title: const Text('Export Laporan Produk (PDF)'),
+                  subtitle: const Text('Unduh laporan produk dalam format PDF'),
+                  onTap: () => _exportProductPdf(context),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: Image.asset(Assets.images.excel.path, width: 40, height: 40),
+                  title: const Text('Export Laporan Produk (Excel)'),
+                  subtitle: const Text('Unduh laporan produk dalam format Excel'),
+                  onTap: () => _exportProductExcel(context),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
