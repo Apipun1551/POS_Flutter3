@@ -64,19 +64,21 @@ class ProductReportTabletPage extends StatefulWidget {
 }
 
 class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
-  // DateTime selectedStartDate = DateTime.now().subtract(const Duration(days: 1));
-  // DateTime selectedEndDate = DateTime.now();
   late DateTime selectedStartDate;
   late DateTime selectedEndDate;
   List<ProductReport> productReports = [];
   Summary? summary;
 
+  // sorting state
+  bool sortAscending = true;
+  String sortColumn = 'productName';
+
   @override
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
-    selectedStartDate = DateTime(now.year, now.month, 1); // tgl 1 bulan ini
-    selectedEndDate = DateTime(now.year, now.month + 1, 0); // tgl terakhir bulan ini
+    selectedStartDate = DateTime(now.year, now.month, 1);
+    selectedEndDate = DateTime(now.year, now.month + 1, 0);
 
     String startDate = DateFormat('yyyy-MM-dd').format(selectedStartDate);
     String endDate = DateFormat('yyyy-MM-dd').format(selectedEndDate);
@@ -85,11 +87,35 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
 
   void _fetchData(String startDate, String endDate) {
     context.read<ProductReportBloc>().add(
-      GetProductReport(startDate, endDate),
-    );
+          GetProductReport(startDate, endDate),
+        );
     context.read<SummaryBloc>().add(
-      SummaryEvent.getSummary(startDate, endDate),
-    );
+          SummaryEvent.getSummary(startDate, endDate),
+        );
+  }
+
+  void _sortTable(String columnName) {
+    setState(() {
+      if (sortColumn == columnName) {
+        sortAscending = !sortAscending;
+      } else {
+        sortColumn = columnName;
+        sortAscending = true;
+      }
+
+      productReports.sort((a, b) {
+        int cmp = 0;
+        switch (columnName) {
+          case 'productName':
+            cmp = a.productName.compareTo(b.productName);
+            break;
+          case 'totalQuantity':
+            cmp = a.totalQuantity.compareTo(b.totalQuantity);
+            break;
+        }
+        return sortAscending ? cmp : -cmp;
+      });
+    });
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
@@ -129,7 +155,7 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
           child: Column(
             children: [
               const SettingsTitle('Report Product'),
-              const SpaceHeight(24),
+              const SizedBox(height: 24),
               Row(
                 children: [
                   Row(
@@ -150,11 +176,10 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
                       ),
                     ],
                   ),
-                  SpaceWidth(context.deviceWidth * 0.04),
+                  const SizedBox(width: 16),
                   const Text('-'),
-                  SpaceWidth(context.deviceWidth * 0.04),
+                  const SizedBox(width: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         DateFormat('dd MMM yyyy').format(selectedEndDate),
@@ -173,29 +198,22 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
                     ],
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 160,
-                        child: Button.filled(
-                          onPressed: () {
-                            String startDate = DateFormat(
-                              'yyyy-MM-dd',
-                            ).format(selectedStartDate);
-                            String endDate = DateFormat(
-                              'yyyy-MM-dd',
-                            ).format(selectedEndDate);
-
-                            _fetchData(startDate, endDate);
-                          },
-                          label: "Filter",
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 160,
+                    child: Button.filled(
+                      onPressed: () {
+                        String startDate = DateFormat('yyyy-MM-dd')
+                            .format(selectedStartDate);
+                        String endDate =
+                            DateFormat('yyyy-MM-dd').format(selectedEndDate);
+                        _fetchData(startDate, endDate);
+                      },
+                      label: "Filter",
+                    ),
                   ),
                 ],
               ),
-              const SpaceHeight(16.0),
+              const SizedBox(height: 16),
               Container(
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(16.0),
@@ -214,37 +232,25 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
                 child: Column(
                   children: [
                     const SettingsTitle("Product Report"),
-                    const SpaceHeight(16.0),
+                    const SizedBox(height: 16.0),
                     BlocBuilder<ProductReportBloc, ProductReportState>(
                       builder: (context, state) {
-                        switch (state.runtimeType) {
-                          case ProductReportLoading:
+                        if (state is ProductReportLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (state is ProductReportLoaded) {
+                          productReports = state.productReports;
+                          if (productReports.isEmpty) {
                             return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          case ProductReportLoaded:
-                            final reports =
-                                (state as ProductReportLoaded).productReports;
-                            productReports = reports;
-                            if (reports.isEmpty) {
-                              return const Center(
-                                child: Text('No product report data available'),
-                              );
-                            }
-                            return Column(
-                              children: [
-                                tableProductReport(reports),
-                              ],
-                            );
-                          case ProductReportError:
-                            final message =
-                                (state as ProductReportError).message;
-                            return Center(
-                              child: Text('Error: $message'),
-                            );
-                          default:
-                            return const SizedBox.shrink();
+                                child:
+                                    Text('No product report data available'));
+                          }
+                          return tableProductReport(productReports);
+                        } else if (state is ProductReportError) {
+                          return Center(
+                              child: Text('Error: ${state.message}'));
                         }
+                        return const SizedBox.shrink();
                       },
                     ),
                   ],
@@ -273,57 +279,35 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
             return Container(
               width: 68,
               height: 52,
-              alignment: Alignment.centerLeft,
-              child: Center(child: Text((index + 1).toString())),
+              alignment: Alignment.center,
+              child: Text((index + 1).toString()),
             );
           },
           rightSideItemBuilder: (context, index) {
             final report = reports[index];
             return Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 220,
                   height: 52,
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                  alignment: Alignment.centerLeft,
-                  child: Center(child: Text(report.productName)),
+                  alignment: Alignment.center,
+                  child: Text(report.productName),
                 ),
-                // Container(
-                //   width: 130,
-                //   height: 52,
-                //   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                //   alignment: Alignment.centerLeft,
-                //   child: Center(
-                //     child: Text(report.stock.toString()),
-                //   ),
-                // ),
                 Container(
                   width: 95,
                   height: 52,
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                  alignment: Alignment.centerLeft,
-                  child: Center(
-                    child: Text(report.totalQuantity.toString()),
-                  ),
+                  alignment: Alignment.center,
+                  child: Text(report.totalQuantity.toString()),
                 ),
                 Container(
                   width: 190,
                   height: 52,
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                  alignment: Alignment.centerLeft,
-                  child: Center(
-                    child: Text(report.totalRevenue.currencyFormatRp),
-                  ),
+                  alignment: Alignment.center,
+                  child: Text(report.totalRevenue.currencyFormatRp),
                 ),
-                // Container(
-                //   width: 130,
-                //   height: 52,
-                //   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                //   alignment: Alignment.centerLeft,
-                //   child: Center(
-                //     child: Text(report.profit.currencyFormatRp),
-                //   ),
-                // ),
               ],
             );
           },
@@ -343,23 +327,32 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
 
   List<Widget> _getTitleHeaderWidget() {
     return [
-      _getTitleItemWidget('No', 68),
-      _getTitleItemWidget('Product', 200),
-      _getTitleItemWidget('Stock', 130),
-      //_getTitleItemWidget('Sold', 130),
-      _getTitleItemWidget('Revenue', 165),
-      //_getTitleItemWidget('Profit', 130),
+      _getTitleItemWidget('No', 68, null),
+      _getTitleItemWidget('Product', 240, 'productName'),
+      _getTitleItemWidget('Stock', 70, 'totalQuantity'),
+      _getTitleItemWidget('Revenue', 185, null),
     ];
   }
 
-  Widget _getTitleItemWidget(String label, double width) {
-    return Container(
-      width: width,
-      height: 56,
-      color: AppColors.brand,
-      alignment: Alignment.centerLeft,
-      child: Center(
-        child: Text(label, style: const TextStyle(color: Colors.white)),
+  Widget _getTitleItemWidget(String label, double width, String? column) {
+    return InkWell(
+      onTap: column != null ? () => _sortTable(column) : null,
+      child: Container(
+        width: width,
+        height: 56,
+        color: AppColors.brand,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(label, style: const TextStyle(color: Colors.white)),
+            if (column != null && sortColumn == column)
+              Icon(
+                sortAscending ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                color: Colors.white,
+              ),
+          ],
+        ),
       ),
     );
   }
