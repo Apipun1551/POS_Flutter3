@@ -115,14 +115,17 @@ class HistoryTransactionCard extends StatelessWidget {
               //   );
               // }
               final item = data.orderItems![index];
+              final price = item.product!.price ?? 0;
+              final total = (item.quantity ?? 0) * price;
               return ListTile(
                 title: Text(item.product!.name ?? 'Product ${index + 1}'),
                 subtitle: Text(
                   '${item.quantity} x ${(item.product!.price ?? 0).currencyFormatRp}',
                 ),
                 trailing: Text(
-                  '${item.quantity! * (item.product!.price ?? 0)}'
-                      .currencyFormatRp,
+                  // '${item.quantity! * (item.product!.price ?? 0)}'
+                  //     .currencyFormatRp,
+                  total.currencyFormatRp,
                   style: const TextStyle(
                     color: AppColors.green,
                     fontSize: 16,
