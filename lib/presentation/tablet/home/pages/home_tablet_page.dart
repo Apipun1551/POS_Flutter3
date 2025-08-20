@@ -330,6 +330,14 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                             ),
                                           );
 
+                                      // Debugging: Log nilai sebelum menampilkan dialog
+                                      developer.log('Final Total Price: $finalTotalPrice');
+                                      developer.log('Products: $products');
+
+                                      // Debugging: Log state OrderBloc sebelum menampilkan dialog
+                                      final orderState = context.read<order_bloc.OrderBloc>().state;
+                                      developer.log('Order State: $orderState');
+
                                       // Tampilkan dialog Payment
                                       showDialog(
                                         context: context,
