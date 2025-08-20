@@ -307,448 +307,191 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
             // Right
             Expanded(
               flex: 2,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Stack(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    // Header
+                    const Row(
+                      children: [
+                        Text(
+                          'Orders #',
+                          style: TextStyle(
+                            color: AppColors.brand,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SpaceHeight(16.0),
+
+                    // Judul kolom
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Item',
+                          style: TextStyle(
+                            color: AppColors.brand,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(width: 130),
+                        SizedBox(
+                          width: 50.0,
+                          child: Text(
+                            'Qty',
+                            style: TextStyle(
+                              color: AppColors.brand,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Price',
+                          style: TextStyle(
+                            color: AppColors.brand,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SpaceHeight(8),
+                    const Divider(),
+                    const SpaceHeight(8),
+
+                    // === Bagian produk (scrollable) ===
+                    Expanded(
+                      child: BlocBuilder<
+                          checkout_bloc.CheckoutBloc,
+                          checkout_bloc.CheckoutState>(
+                        builder: (context, state) {
+                          switch (state) {
+                            case checkout_bloc.Success(
+                              products: List products,
+                              total: int _,
+                              qty: int qty,
+                            ):
+                              return qty == 0
+                                  ? const Center(
+                                      child: Text(
+                                        'No items in the cart',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    )
+                                  : ListView.separated(
+                                      itemBuilder: (context, index) => OrderMenu(
+                                        data: products[index],
+                                      ),
+                                      separatorBuilder: (context, index) =>
+                                          const SpaceHeight(1.0),
+                                      itemCount: products.length,
+                                    );
+                            case _:
+                              return const SizedBox.shrink();
+                          }
+                        },
+                      ),
+                    ),
+
+                    const SpaceHeight(8),
+                    const Divider(),
+                    const SpaceHeight(8),
+
+                    // === Metode Pembayaran ===
+                    ValueListenableBuilder(
+                      valueListenable: indexValuePayment,
+                      builder: (context, value, _) => Row(
                         children: [
-                          const Row(
-                            children: [
-                              Text(
-                                'Orders #',
-                                style: TextStyle(
-                                  color: AppColors.brand,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SpaceHeight(16.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Item',
-                                style: TextStyle(
-                                  color: AppColors.brand,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(width: 130),
-                              SizedBox(
-                                width: 50.0,
-                                child: Text(
-                                  'Qty',
-                                  style: TextStyle(
-                                    color: AppColors.brand,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                child: Text(
-                                  'Price',
-                                  style: TextStyle(
-                                    color: AppColors.brand,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SpaceHeight(8),
-                          const Divider(),
-                          const SpaceHeight(8),
-                          SizedBox(
-                            width: context.deviceWidth,
-                            height: context.deviceHeight * 0.45,
-                            child: BlocBuilder<
-                              checkout_bloc.CheckoutBloc,
-                              checkout_bloc.CheckoutState
-                            >(
-                              builder: (context, state) {
-                                switch (state) {
-                                  case checkout_bloc.Success(
-                                    products: List products,
-                                    total: int _,
-                                    qty: int qty,
-                                  ):
-                                    return qty == 0
-                                        ? Center(
-                                          child: Text(
-                                            'No items in the cart',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                        )
-                                        : ListView.separated(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemBuilder:
-                                              (context, index) => OrderMenu(
-                                                data: products[index],
-                                              ),
-                                          separatorBuilder:
-                                              (context, index) =>
-                                                  const SpaceHeight(1.0),
-                                          itemCount: products.length,
-                                        );
-
-                                  case _:
-                                    return SizedBox.shrink();
-                                }
+                          Flexible(
+                            child: MenuButton(
+                              iconPath: Assets.icons.cash.path,
+                              label: 'CASH',
+                              isActive: value == 1,
+                              onPressed: () {
+                                indexValuePayment.value = 1;
+                                // kirim event ke bloc
                               },
                             ),
                           ),
-                          const SpaceHeight(8.0),
-                          const Divider(),
-                          const SpaceHeight(8.0),
-
-                          if (!isOpenBill) ...[
-                            ValueListenableBuilder(
-                              valueListenable: indexValuePayment,
-                              builder:
-                                  (context, value, _) => Row(
-                                    children: [
-                                      Flexible(
-                                        child: MenuButton(
-                                          iconPath: Assets.icons.cash.path,
-                                          label: 'CASH',
-                                          isActive: value == 1,
-                                          onPressed: () {
-                                            developer.log("Payment Cash");
-                                            indexValuePayment.value = 1;
-                                            List<OrderItem> products =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .products
-                                                    : [];
-                                            int qty =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .qty
-                                                    : 0;
-                                            int total =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .total
-                                                    : 0;
-                                            context
-                                                .read<order_bloc.OrderBloc>()
-                                                .add(
-                                                  order_bloc
-                                                      .OrderEvent.addPaymentMethod(
-                                                    'CASH',
-                                                    products,
-                                                    qty,
-                                                    total,
-                                                  ),
-                                                );
-                                          },
-                                        ),
-                                      ),
-                                      const SpaceWidth(16.0),
-                                      Flexible(
-                                        child: MenuButton(
-                                          iconPath: Assets.icons.qrCode.path,
-                                          label: 'QR',
-                                          isActive: value == 2,
-                                          onPressed: () {
-                                            indexValuePayment.value = 2;
-                                            developer.log("Payment QRIS");
-                                            List<OrderItem> products =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .products
-                                                    : [];
-                                            int qty =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .qty
-                                                    : 0;
-                                            int total =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .total
-                                                    : 0;
-                                            context
-                                                .read<order_bloc.OrderBloc>()
-                                                .add(
-                                                  order_bloc
-                                                      .OrderEvent.addPaymentMethod(
-                                                    'QR',
-                                                    products,
-                                                    qty,
-                                                    total,
-                                                  ),
-                                                );
-                                          },
-                                        ),
-                                      ),
-                                      const SpaceWidth(16.0),
-                                      Flexible(
-                                        child: MenuButton(
-                                          iconPath: Assets.icons.debit.path,
-                                          label: 'TRANSFER',
-                                          isActive: value == 3,
-                                          onPressed: () {
-                                            indexValuePayment.value = 3;
-                                            developer.log("Payment TRANSFER");
-                                            List<OrderItem> products =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .products
-                                                    : [];
-                                            int qty =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .qty
-                                                    : 0;
-                                            int total =
-                                                context
-                                                            .read<
-                                                              checkout_bloc.CheckoutBloc
-                                                            >()
-                                                            .state
-                                                        is checkout_bloc.Success
-                                                    ? (context
-                                                                .read<
-                                                                  checkout_bloc.CheckoutBloc
-                                                                >()
-                                                                .state
-                                                            as checkout_bloc.Success)
-                                                        .total
-                                                    : 0;
-                                            context
-                                                .read<order_bloc.OrderBloc>()
-                                                .add(
-                                                  order_bloc
-                                                      .OrderEvent.addPaymentMethod(
-                                                    'TRANSFER',
-                                                    products,
-                                                    qty,
-                                                    total,
-                                                  ),
-                                                );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                          const SpaceWidth(16),
+                          Flexible(
+                            child: MenuButton(
+                              iconPath: Assets.icons.qrCode.path,
+                              label: 'QR',
+                              isActive: value == 2,
+                              onPressed: () {
+                                indexValuePayment.value = 2;
+                              },
                             ),
-                          ],
-                          const SpaceHeight(8.0),
-                          const Divider(),
-                          const SpaceHeight(8.0),
-                          BlocBuilder<
-                            checkout_bloc.CheckoutBloc,
-                            checkout_bloc.CheckoutState
-                          >(
-                            builder: (context, state) {
-                              int total =
-                                  state is checkout_bloc.Success
-                                      ? state.total
-                                      : 0;
-                              return Column(
-                                children: [
-                                  const SpaceHeight(12.0),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        'Total',
-                                        style: TextStyle(
-                                          color: AppColors.brand,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      Text(
-                                        total.currencyFormatRp,
-                                        style: const TextStyle(
-                                          color: AppColors.brand,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
                           ),
-                          const SpaceHeight(100.0),
+                          const SpaceWidth(16),
+                          Flexible(
+                            child: MenuButton(
+                              iconPath: Assets.icons.debit.path,
+                              label: 'TRANSFER',
+                              isActive: value == 3,
+                              onPressed: () {
+                                indexValuePayment.value = 3;
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    BlocBuilder<
-                      checkout_bloc.CheckoutBloc,
-                      checkout_bloc.CheckoutState
-                    >(
-                      builder: (context, state) {
-                        int finalTotalPrice =
-                            state is checkout_bloc.Success ? state.total : 0;
-                        return Align(
-                          alignment: Alignment.bottomCenter,
-                          child:
-                              isOpenBill
-                                  ? Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Button.filled(
-                                      onPressed: () async {
-                                        //open bill success snack bar
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Save Draft Order Success',
-                                            ),
-                                            backgroundColor: AppColors.brand,
-                                          ),
-                                        );
 
-                                        context.pushReplacement(
-                                          const DashboardTabletPage(),
-                                        );
-                                      },
-                                      label: 'Save & Print',
-                                      fontSize: 14,
-                                      height: 52,
-                                      width: context.deviceWidth,
-                                    ),
-                                  )
-                                  : ColoredBox(
-                                    color: AppColors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0,
-                                        vertical: 16.0,
-                                      ),
-                                      child: Button.filled(
-                                        onPressed: () {
-                                        if (indexValuePayment.value == 0) {
-                                          // belum pilih metode pembayaran, bisa kasih snackbar warning
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Silakan pilih metode pembayaran'),
-                                              backgroundColor: AppColors.brand,
-                                            ),
-                                          );
-                                        } else if (indexValuePayment.value == 1 ||
-                                                  indexValuePayment.value == 2 ||
-                                                  indexValuePayment.value == 3) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => PaymentCashDialog(
-                                              price: finalTotalPrice,
-                                              isTablet: true,
-                                            ),
-                                          );
-                                        }
-                                        },
-                                        label: 'Payment',
-                                      ),
-                                    ),
+                    const SpaceHeight(8),
+                    const Divider(),
+                    const SpaceHeight(8),
+
+                    // === Total + Tombol Payment (selalu nempel bawah) ===
+                    BlocBuilder<checkout_bloc.CheckoutBloc, checkout_bloc.CheckoutState>(
+                      builder: (context, state) {
+                        int total = state is checkout_bloc.Success ? state.total : 0;
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total',
+                                  style: TextStyle(
+                                    color: AppColors.brand,
+                                    fontWeight: FontWeight.w600,
                                   ),
+                                ),
+                                Text(
+                                  total.currencyFormatRp,
+                                  style: const TextStyle(
+                                    color: AppColors.brand,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SpaceHeight(16),
+                            Button.filled(
+                              onPressed: () {
+                                // Payment logic
+                              },
+                              label: 'Payment',
+                            ),
+                          ],
                         );
                       },
                     ),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
