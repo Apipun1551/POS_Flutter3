@@ -38,11 +38,16 @@ class ProductReportTabletPageWrapper extends StatelessWidget {
         BlocProvider<ProductReportBloc>(
           create: (context) {
             final bloc = ProductReportBloc(ReportRemoteDatasource());
+            DateTime today = DateTime.now();  
             // langsung fetch data saat Bloc dibuat
             bloc.add(GetProductReport(
-              formatDate(DateTime.now().subtract(const Duration(days: 30))),
-              formatDate(DateTime.now()),
+              formatDate(today),
+              formatDate(today),
             ));
+            // bloc.add(GetProductReport(
+            //   formatDate(DateTime.now().subtract(const Duration(days: 30))),
+            //   formatDate(DateTime.now()),
+            // ));
             return bloc;
           },
         ),
@@ -77,8 +82,11 @@ class _ProductReportTabletPageState extends State<ProductReportTabletPage> {
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
-    selectedStartDate = DateTime(now.year, now.month, 1);
-    selectedEndDate = DateTime(now.year, now.month + 1, 0);
+    // default per hari
+    selectedStartDate = now;
+    selectedEndDate = now;
+    // selectedStartDate = DateTime(now.year, now.month, 1);
+    // selectedEndDate = DateTime(now.year, now.month + 1, 0);
 
     String startDate = DateFormat('yyyy-MM-dd').format(selectedStartDate);
     String endDate = DateFormat('yyyy-MM-dd').format(selectedEndDate);
