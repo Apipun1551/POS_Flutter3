@@ -184,7 +184,7 @@ class _ManagePrinterTabletPageState extends State<ManagePrinterTabletPage> {
     bytes += generator.reset();
 
     bytes += generator.text(
-      'Code with Bahri',
+      'POS',
       styles: const PosStyles(bold: true),
     );
     bytes += generator.text(
@@ -211,7 +211,7 @@ class _ManagePrinterTabletPageState extends State<ManagePrinterTabletPage> {
     );
 
     bytes += generator.text(
-      'FIC Batch 23',
+      'POS',
       styles: const PosStyles(
         height: PosTextSize.size2,
         width: PosTextSize.size2,
