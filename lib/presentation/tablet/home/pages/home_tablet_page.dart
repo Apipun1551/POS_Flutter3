@@ -66,6 +66,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
     return Hero(
       tag: 'confirmation_screen',
       child: Scaffold(
+        resizeToAvoidBottomInset: false, // supaya layout tidak ikut naik saat keyboard muncul
         body: Row(
           children: [
             // =================== LEFT PANEL ===================
@@ -83,8 +84,8 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                           controller: searchController,
                           onChanged: (value) {
                             context.read<product_bloc.ProductBloc>().add(
-                              product_bloc.ProductEvent.searchProducts(value),
-                            );
+                                  product_bloc.ProductEvent.searchProducts(value),
+                                );
                           },
                         ),
                         const SizedBox(height: 24),
@@ -129,7 +130,8 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                 ),
               ),
             ),
-            // === Bagian kanan ===
+
+            // =================== RIGHT PANEL (Orders) ===================
             Expanded(
               flex: 2,
               child: Padding(
@@ -166,7 +168,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                         ),
                         SizedBox(width: 130),
                         SizedBox(
-                          width: 50.0,
+                          width: 100.0,
                           child: Text(
                             'Qty',
                             style: TextStyle(
@@ -209,12 +211,138 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                     ),
                                   )
                                 : ListView.separated(
-                                    itemBuilder: (context, index) => OrderMenu(
-                                      data: products[index],
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom + 180, // buat footer
                                     ),
-                                    separatorBuilder: (context, index) => const SpaceHeight(1.0),
+                                    itemBuilder: (context, index) {
+                                      final item = products[index];
+                                      return Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2, // nama produk ambil 3x ruang
+                                            child: Text(
+                                              item.product.name ?? '-',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                // Tombol minus
+                                                InkWell(
+                                                  // Tombol minus
+                                                  onTap: () {
+                                                    final newQty = item.quantity - 1;
+                                                    context.read<checkout_bloc.CheckoutBloc>().add(
+                                                          checkout_bloc.UpdateCheckout(item.product, newQty),
+                                                        );
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.grey.shade200,
+                                                    ),
+                                                    child: const Icon(Icons.remove, size: 18),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 6),
+
+                                                // Angka qty
+                                                InkWell(
+                                                  onTap: () async {
+                                                    // Bisa tetap buka dialog jika mau edit manual
+                                                    final newQty = await showDialog<int>(
+                                                      context: context,
+                                                      builder: (_) => AlertDialog(
+                                                        title: const Text("Edit Quantity"),
+                                                        content: TextField(
+                                                          autofocus: true,
+                                                          keyboardType: TextInputType.number,
+                                                          decoration: InputDecoration(
+                                                            hintText: item.quantity.toString(),
+                                                          ),
+                                                          onSubmitted: (val) {
+                                                            Navigator.of(context).pop(int.tryParse(val) ?? item.quantity);
+                                                          },
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () => Navigator.of(context).pop(item.quantity),
+                                                            child: const Text("Cancel"),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+
+                                                    if (newQty != null && newQty != item.quantity) {
+                                                      context.read<checkout_bloc.CheckoutBloc>().add(
+                                                            checkout_bloc.UpdateCheckout(item.product, newQty),
+                                                          );
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                                                    child: Text(
+                                                      item.quantity.toString(),
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                const SizedBox(width: 6),
+                                                // Tombol plus
+                                                InkWell(
+                                                  onTap: () {
+                                                    final newQty = item.quantity + 1;
+                                                    context.read<checkout_bloc.CheckoutBloc>().add(
+                                                          checkout_bloc.UpdateCheckout(item.product, newQty),
+                                                        );
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.grey.shade200,
+                                                    ),
+                                                    child: const Icon(Icons.add, size: 18),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1, // price
+                                            child: Container(
+                                              alignment: Alignment.centerRight,
+                                              child: Text(item.product.price?.currencyFormatRp ?? '-'),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (_, __) => const SizedBox(height: 8),
                                     itemCount: products.length,
                                   );
+                                //   ListView.separated(
+                                //     padding: EdgeInsets.only(
+                                //       bottom: MediaQuery.of(context)
+                                //               .viewInsets
+                                //               .bottom +
+                                //           180, // 👈 kasih ruang buat footer
+                                //     ),
+                                //     itemBuilder: (context, index) => OrderMenu(
+                                //       data: products[index],
+                                //     ),
+                                //     separatorBuilder: (context, index) => const SpaceHeight(1.0),
+                                //     itemCount: products.length,
+                                //   );
                           } else {
                             return const SizedBox.shrink();
                           }
@@ -265,11 +393,14 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                     const Divider(),
                     const SpaceHeight(8),
 
-                    // === Total + Tombol Payment (sticky) ===
+                    // === Total + Tombol Payment — Ditempel di bawah, tidak ikut SafeArea (agar tidak naik) ===
                     BlocBuilder<checkout_bloc.CheckoutBloc, checkout_bloc.CheckoutState>(
                       builder: (context, state) {
-                        int finalTotalPrice = state is checkout_bloc.Success ? state.total : 0;
-                        final products = state is checkout_bloc.Success ? state.products : <OrderItem>[];
+                        final int finalTotalPrice =
+                            state is checkout_bloc.Success ? state.total : 0;
+                        final products = state is checkout_bloc.Success
+                            ? state.products
+                            : <OrderItem>[];
                         final qty = state is checkout_bloc.Success ? state.qty : 0;
 
                         return ColoredBox(
@@ -302,6 +433,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                   ],
                                 ),
                                 const SpaceHeight(12.0),
+
                                 // --- Tombol Payment ---
                                 Button.filled(
                                   onPressed: () {
@@ -330,15 +462,10 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                                             ),
                                           );
 
-                                      // Debugging: Log nilai sebelum menampilkan dialog
                                       developer.log('Final Total Price: $finalTotalPrice');
                                       developer.log('Products: $products');
 
-                                      // Debugging: Log state OrderBloc sebelum menampilkan dialog
-                                      final orderState = context.read<order_bloc.OrderBloc>().state;
-                                      developer.log('Order State: $orderState');
-
-                                      // Tampilkan dialog Payment
+                                      // Tampilkan dialog Payment (tetap dialog, bukan push page)
                                       showDialog(
                                         context: context,
                                         builder: (_) => PaymentCashDialog(
@@ -366,7 +493,7 @@ class _HomeTabletPageState extends State<HomeTabletPage> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
