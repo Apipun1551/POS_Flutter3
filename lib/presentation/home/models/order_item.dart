@@ -46,4 +46,15 @@ class OrderItem {
 
   factory OrderItem.fromJson(String source) =>
       OrderItem.fromMap(json.decode(source));
+
+  ///copyWith untuk update data tanpa bikin object baru manual
+  OrderItem copyWith({
+    Product? product,
+    int? quantity,
+  }) {
+    return OrderItem(
+      product: product ?? this.product,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }
