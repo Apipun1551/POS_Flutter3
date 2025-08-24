@@ -7,4 +7,6 @@ class CheckoutEvent with _$CheckoutEvent {
   const factory CheckoutEvent.addCheckout(Product product) = _AddCheckout;
   //remove checkout
   const factory CheckoutEvent.removeCheckout(Product product) = _RemoveCheckout;
+  //Update qty
+  const factory CheckoutEvent.updateCheckout(Product product, int qty) = UpdateCheckout;
 }
