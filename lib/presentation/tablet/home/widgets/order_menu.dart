@@ -74,8 +74,31 @@ class OrderMenu extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 30.0,
-                  child: Center(child: Text(data.quantity.toString())),
+                  //width: 30.0,
+                  // child: Center(child: Text(data.quantity.toString())),
+                  width :50.0,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(text: data.quantity.toString()),
+                    onSubmitted: (value) {
+                      final newQty = int.tryParse(value) ?? data.quantity;
+                      if (newQty > 0) {
+                        context.read<CheckoutBloc>().add(
+                          CheckoutEvent.updateCheckout(data.product, newQty),
+                        );
+                      } else {
+                        // kalau 0, bisa langsung remove product
+                        context.read<CheckoutBloc>().add(
+                          CheckoutEvent.removeCheckout(data.product),
+                        );
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    ),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
