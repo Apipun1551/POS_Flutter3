@@ -207,6 +207,74 @@ as Product,
 }
 
 /// @nodoc
+
+
+class UpdateCheckout implements CheckoutEvent {
+  const UpdateCheckout(this.product, this.qty);
+  
+
+ final  Product product;
+ final  int qty;
+
+/// Create a copy of CheckoutEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateCheckoutCopyWith<UpdateCheckout> get copyWith => _$UpdateCheckoutCopyWithImpl<UpdateCheckout>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCheckout&&(identical(other.product, product) || other.product == product)&&(identical(other.qty, qty) || other.qty == qty));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,product,qty);
+
+@override
+String toString() {
+  return 'CheckoutEvent.updateCheckout(product: $product, qty: $qty)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateCheckoutCopyWith<$Res> implements $CheckoutEventCopyWith<$Res> {
+  factory $UpdateCheckoutCopyWith(UpdateCheckout value, $Res Function(UpdateCheckout) _then) = _$UpdateCheckoutCopyWithImpl;
+@useResult
+$Res call({
+ Product product, int qty
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateCheckoutCopyWithImpl<$Res>
+    implements $UpdateCheckoutCopyWith<$Res> {
+  _$UpdateCheckoutCopyWithImpl(this._self, this._then);
+
+  final UpdateCheckout _self;
+  final $Res Function(UpdateCheckout) _then;
+
+/// Create a copy of CheckoutEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? product = null,Object? qty = null,}) {
+  return _then(UpdateCheckout(
+null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as Product,null == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$CheckoutState {
 
 
@@ -304,7 +372,7 @@ String toString() {
 
 
 class Success implements CheckoutState {
-  const Success(final  List<OrderItem> products, this.total, this.qty): _products = products;
+  const Success({required final  List<OrderItem> products, required this.total, required this.qty}): _products = products;
   
 
  final  List<OrderItem> _products;
@@ -366,9 +434,9 @@ class _$SuccessCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? products = null,Object? total = null,Object? qty = null,}) {
   return _then(Success(
-null == products ? _self._products : products // ignore: cast_nullable_to_non_nullable
-as List<OrderItem>,null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
-as int,null == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
+products: null == products ? _self._products : products // ignore: cast_nullable_to_non_nullable
+as List<OrderItem>,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,qty: null == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
