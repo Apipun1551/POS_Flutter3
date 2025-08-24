@@ -72,8 +72,12 @@ class ProductCardCrud extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 8),
+                            // Text(
+                            //   'Stock: ${data.stock ?? 0} ${data.unit ?? ''}',
+                            //   style: const TextStyle(fontSize: 12, color: Colors.grey),
+                            // ),
                             Text(
-                              'Stock: ${data.stock ?? 0} ml',
+                              'Stock: ${data.stock ?? 0} ml/pcs',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.grey),
                             ),

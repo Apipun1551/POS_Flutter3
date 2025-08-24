@@ -8,6 +8,8 @@ class ProductModel {
   //final ProductCategory category;
   final int price;
   final int stock;
+  // Tambahan satuan untuk UI (tidak ada di database)
+  // String? unit;
 
   ProductModel({
     required this.image,
@@ -15,6 +17,7 @@ class ProductModel {
     //required this.category,
     required this.price,
     required this.stock,
+    // this.unit,
   });
 
   String get priceFormat => price.currencyFormatRp;

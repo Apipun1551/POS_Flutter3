@@ -30,6 +30,9 @@ class _FormProductDialogState extends State<FormProductDialog> {
   bool isBestSeller = false;
 
   CategoryModel? selectCategory;
+
+  //String selectedStockUnit = 'ml'; // default satuan stok 
+
   String? imageUrl;
 
   @override
@@ -42,6 +45,11 @@ class _FormProductDialogState extends State<FormProductDialog> {
     isBestSeller =  false;
     imageUrl = widget.product?.image;
     super.initState();
+
+    // ambil unit dari product lama kalau ada
+    // if (widget.product?.unit != null) {
+    //   selectedStockUnit = widget.product!.unit!;
+    // }
   }
 
   @override
@@ -118,6 +126,26 @@ class _FormProductDialogState extends State<FormProductDialog> {
                 keyboardType: TextInputType.number,
               ),
               const SpaceHeight(20.0),
+
+              // dropdown satuan stok
+              // DropdownButtonFormField<String>(
+              //   value: selectedStockUnit,
+              //   items: const [
+              //     DropdownMenuItem(value: 'ml', child: Text('ml')),
+              //     DropdownMenuItem(value: 'item', child: Text('item')),
+              //   ],
+              //   onChanged: (value) {
+              //     if (value != null) {
+              //       setState(() {
+              //         selectedStockUnit = value;
+              //       });
+              //     }
+              //   },
+              //   decoration: const InputDecoration(
+              //     labelText: "Stock Unit",
+              //     border: OutlineInputBorder(),
+              //   ),
+              // ),
               // const Text(
               //   "Category",
               //   style: TextStyle(
@@ -183,6 +211,7 @@ class _FormProductDialogState extends State<FormProductDialog> {
                         name: nameController!.text,
                         price: price.toDouble(),
                         stock: stock,
+                        //unit: selectedStockUnit, //simpan unit di UI
                       );
 
                       if (widget.product == null) {

@@ -39,6 +39,7 @@ class Product {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final Category? category;
+  // final String? unit;
 
   Product({
     this.id,
@@ -51,6 +52,7 @@ class Product {
     this.createdAt,
     this.updatedAt,
     this.category,
+    // this.unit,
   });
 
   factory Product.fromMap(Map<String, dynamic> json) => Product(
@@ -73,6 +75,7 @@ class Product {
             : DateTime.tryParse(json["updated_at"]),
         category:
             json["category"] == null ? null : Category.fromMap(json["category"]),
+        // unit: json['unit'], // mapping dari API/DB
       );
 
   // untuk update product: hanya kirim field yang valid
@@ -80,6 +83,7 @@ class Product {
         if (name != null) 'name': name,
         if (price != null) 'price': price,
         if (stock != null) 'stock': stock,
+        // if (unit != null) 'unit': unit,
       };
 
   Map<String, dynamic> toMap() => {
@@ -90,6 +94,7 @@ class Product {
         "category_id": categoryId,
         "image": image,
         "stock": stock,
+        // "unit": unit,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "category": category?.toMap(),
@@ -102,6 +107,7 @@ class Product {
         'name': name,
         'price': price,
         'stock': stock,
+        // 'unit': unit,
       };
     }
   }
