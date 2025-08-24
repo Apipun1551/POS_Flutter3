@@ -8,60 +8,78 @@ part 'checkout_state.dart';
 part 'checkout_bloc.freezed.dart';
 
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  CheckoutBloc() : super(const Success([], 0, 0)) {
+  CheckoutBloc() : super(const Success(products: [], total: 0, qty: 0)) {
+    
     on<_AddCheckout>((event, emit) {
-      var currentStates = state as Success;
-      List<OrderItem> newCheckout = [...currentStates.products];
-      if (newCheckout.any(
-        (element) => element.product.id == event.product.id,
-      )) {
-        var index = newCheckout.indexWhere(
-          (element) => element.product.id == event.product.id,
+      final currentState = state as Success;
+      final newCheckout = [...currentState.products];
+
+      if (newCheckout.any((e) => e.product.id == event.product.id)) {
+        final index = newCheckout.indexWhere((e) => e.product.id == event.product.id);
+        newCheckout[index] = newCheckout[index].copyWith(
+          quantity: newCheckout[index].quantity + 1,
         );
-        newCheckout[index].quantity++;
       } else {
         newCheckout.add(OrderItem(product: event.product, quantity: 1));
       }
-      int totalQuantity = 0;
-      int totalPrice = 0;
-      for (var element in newCheckout) {
-        totalQuantity += element.quantity;
-        totalPrice +=
-            // element.quantity * (element.product.price ?? 0);
-          element.quantity * (element.product.price ?? 0).toInt();
 
+      emit(
+        currentState.copyWith(
+          products: newCheckout,
+          qty: newCheckout.fold(0, (sum, item) => sum + item.quantity),
+          total: newCheckout.fold(0, (sum, item) => sum + (item.product.price ?? 0).toInt() * item.quantity),
+        ),
+      );
+    });
+
+    on<UpdateCheckout>((event, emit) {
+      final currentState = state as Success;
+      final updatedProducts = [...currentState.products];
+
+      final index = updatedProducts.indexWhere((item) => item.product.id == event.product.id);
+      if (index != -1) {
+        if (event.qty > 0) {
+          updatedProducts[index] = updatedProducts[index].copyWith(quantity: event.qty);
+        } else {
+          updatedProducts.removeAt(index);
+        }
       }
-      emit(Success(newCheckout, totalPrice, totalQuantity));
+
+      emit(
+        currentState.copyWith(
+          products: updatedProducts,
+          qty: updatedProducts.fold(0, (sum, item) => sum + item.quantity),
+          total: updatedProducts.fold(0, (sum, item) => sum + (item.product.price ?? 0).toInt() * item.quantity),
+        ),
+      );
     });
 
     on<_RemoveCheckout>((event, emit) {
-      var currentStates = state as Success;
-      List<OrderItem> newCheckout = [...currentStates.products];
+      final currentState = state as Success;
+      final newCheckout = [...currentState.products];
 
-      if (newCheckout.any(
-        (element) => element.product.id == event.product.id,
-      )) {
-        var index = newCheckout.indexWhere(
-          (element) => element.product.id == event.product.id,
-        );
+      if (newCheckout.any((e) => e.product.id == event.product.id)) {
+        final index = newCheckout.indexWhere((e) => e.product.id == event.product.id);
         if (newCheckout[index].quantity > 1) {
-          newCheckout[index].quantity--;
+          newCheckout[index] = newCheckout[index].copyWith(
+            quantity: newCheckout[index].quantity - 1,
+          );
         } else {
           newCheckout.removeAt(index);
         }
       }
-      int totalQuantity = 0;
-      int totalPrice = 0;
-      for (var element in newCheckout) {
-        totalQuantity += element.quantity;
-        totalPrice +=
-          element.quantity * (element.product.price ?? 0).toInt();
-      }
-      emit(Success(newCheckout, totalPrice, totalQuantity));
+
+      emit(
+        currentState.copyWith(
+          products: newCheckout,
+          qty: newCheckout.fold(0, (sum, item) => sum + item.quantity),
+          total: newCheckout.fold(0, (sum, item) => sum + (item.product.price ?? 0).toInt() * item.quantity),
+        ),
+      );
     });
 
     on<_Started>((event, emit) {
-      emit(const Success([], 0, 0));
+      emit(const Success(products: [], total: 0, qty: 0));
     });
   }
 }
