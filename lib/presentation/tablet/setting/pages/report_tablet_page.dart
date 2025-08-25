@@ -27,7 +27,8 @@ class ReportTabletPage extends StatefulWidget {
 }
 
 class _ReportTabletPageState extends State<ReportTabletPage> {
-  DateTime selectedStartDate = DateTime.now().subtract(const Duration(days: 1));
+  //DateTime selectedStartDate = DateTime.now().subtract(const Duration(days: 1));
+  DateTime selectedStartDate = DateTime.now();
   DateTime selectedEndDate = DateTime.now();
   List<ProductSales> productSales = [];
   Summary? summary;
